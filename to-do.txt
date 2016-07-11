@@ -1,0 +1,1 @@
+Comment code very well, documenting each major block in what it does and why it's there.

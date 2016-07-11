@@ -1,0 +1,15 @@
+name: ChatWithStaff
+description: Chat with your staff in private.
+author: Jessible
+version: 1.0.1.1
+main: com.jessible.chatwithstaff.ChatWithStaff
+commands:
+  chatwithstaff:
+    description: View plugin information about ChatWithStaff.
+    aliases: [cws]
+  staffchat:
+    description: Sends a message to all staff members or toggles a player's staff chat mode..
+    aliases: [sc]
+  staffchatlist:
+    description: Shows all staff members viewing staff chat.
+    aliases: [scl]

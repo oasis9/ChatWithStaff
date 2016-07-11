@@ -1,0 +1,7 @@
+Ignore a player in staff chat.
+
+Staff chat mailing system.
+
+Talk directly to one staff member (1v1 staff chat channel).
+
+Multiple staff chat channels.
