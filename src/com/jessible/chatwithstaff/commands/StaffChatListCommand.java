@@ -72,15 +72,16 @@ public class StaffChatListCommand implements CommandExecutor {
 			listMsg = listMsg.replace("{amount}", String.valueOf(staffAmount));
 			listMsg = listMsg.replace("{s}", sOrNoS);
 			
+			String staff = "None";
 			boolean onStaffLine = listMsg.contains("{staff}");
 			if (onStaffLine && staffAmount > 0) {
-				String staff;
 				if (listMsg.contains("{staff}")) {
 					String colorCodes = msgs.getColorCodeBefore("{s", listMsg);
 					staff = Utils.buildString(scm.getNames(), "&f, " + colorCodes);
-					listMsg = listMsg.replace("{staff}", staff);
 				}
 			}
+			listMsg = listMsg.replace("{staff}", staff);
+			
 			sender.sendMessage(prefix + msgs.color(listMsg));
 		}
 		return true;
