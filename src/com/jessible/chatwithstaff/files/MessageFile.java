@@ -68,7 +68,9 @@ public class MessageFile extends FileCreator implements YamlFile {
 	 * @return Prefix message, with a translated reset color code and space
 	 */
 	public String getPrefix() {
-		return color(get().getString("Prefix") + "&r ");
+		String prefix = get().getString("Prefix");
+		String ending = prefix.isEmpty() ? "" : "&r "; // to avoid a white space if prefix is empty
+		return color(prefix + ending);
 	}
 	
 	/**
