@@ -1,2 +1,0 @@
-Fixed issue #1 https://github.com/Jessible/ChatWithStaff/issues/1
-Fixed issue #2 https://github.com/Jessible/ChatWithStaff/issues/2
