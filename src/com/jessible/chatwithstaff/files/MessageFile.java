@@ -24,10 +24,15 @@ import com.jessible.chatwithstaff.FileCreator;
 import com.jessible.chatwithstaff.Utils;
 
 /**
- * Handles ChatWithStaff's messages.yml file.
+ * The handler for the messages.yml file.
+ * 
+ * @since 1.0.0.0
  */
 public class MessageFile extends FileCreator implements YamlFile {
 	
+	/**
+	 * Initializes MessageFile class.
+	 */
 	public MessageFile() {
 		super("messages");
 	}
