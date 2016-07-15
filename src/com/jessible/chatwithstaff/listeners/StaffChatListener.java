@@ -28,13 +28,20 @@ import com.jessible.chatwithstaff.Permissions;
 import com.jessible.chatwithstaff.StaffChatMode;
 
 /**
- * Listens for players in staff chat mode.
+ * The handler for when a player talks while their staff chat mode is on.
+ * 
+ * @since 1.0.0.0
  */
 public class StaffChatListener implements Listener {
 	
 	private ChatWithStaff cws;
 	private String perm;
 	
+	/**
+	 * Initializes StaffChatListener class.
+	 *  
+	 * @param cws Instance of ChatWithStaff class (main class)
+	 */
 	public StaffChatListener(ChatWithStaff cws) {
 		this.cws = cws;
 		this.perm = Permissions.STAFFCHAT_CMD.get();
@@ -51,11 +58,13 @@ public class StaffChatListener implements Listener {
 		String message = e.getMessage();
 		StaffChatMode scm = new StaffChatMode(cws);
 		
+		// If the player is not in staff chat mode.
 		if (!scm.isInStaffChatMode(player)) {
 			return;
 		}
 		e.setCancelled(true);
 		
+		// Send message to all staff members.
 		message = scm.formatMessage(message, player);
 		for (Player staff : Bukkit.getOnlinePlayers()) {
 			if (staff.hasPermission(perm)) {
