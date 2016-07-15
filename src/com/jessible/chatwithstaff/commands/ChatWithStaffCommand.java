@@ -27,7 +27,9 @@ import com.jessible.chatwithstaff.Utils;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
- * Handles the /chatforstaff command.
+ * The handler for the /chatwithstaff command.
+ * 
+ * @since 1.0.0.0
  */
 public class ChatWithStaffCommand implements CommandExecutor {
 	
@@ -35,6 +37,11 @@ public class ChatWithStaffCommand implements CommandExecutor {
 	private String permHelp, permReload, version;
 	private String[] info;
 	
+	/**
+	 * Initializes ChatWithStaffCommand class.
+	 *  
+	 * @param cws Instance of ChatWithStaff class (main class)
+	 */
 	public ChatWithStaffCommand(ChatWithStaff cws) {
 		this.cws = cws;
 		this.permHelp = Permissions.CHATWITHSTAFF_HELP_CMD.get();
@@ -47,14 +54,48 @@ public class ChatWithStaffCommand implements CommandExecutor {
 	}
 
 	/**
-	 * Shows detailed information about ChatWithStaff.
+	 * The /chatwithstaff command. 
+	 * <p>
+	 * <strong>/chatwithstaff</strong>
+	 * <ul>
+	 * 		<li><strong>Example usage</strong>: /chatwithstaff.</li>
+	 * 		<li><strong>Description</strong>: Shows ChatWithStaff's version
+	 * 			number and download link.
+	 * 		</li>
+	 * </ul>
+	 * 
+	 * <strong>/chatwithstaff help</strong>
+	 * <ul>
+	 * 		<li><strong>Example usage</strong>: /chatwithstaff help.</li>
+	 * 		<li><strong>Description</strong>: Shows ChatWithStaff's help
+	 * 			information found in ChatWithStaff's messages.yml file.
+	 * 		</li>
+	 * </ul>
+	 * 	
+	 * <strong>/chatwithstaff reload</strong>
+	 * <ul>
+	 * 		<li><strong>Example usage</strong>: /chatwithstaff reload.</li>
+	 * 		<li><strong>Description</strong>: Reloads ChatWithStaff's
+	 * 			config.yml and messages.yml files.
+	 * 		</li>
+	 * </ul>
+	 * 
+	 * @param sender the command sender
+	 * @param cmd the command
+	 * @param s the shortcut/alias that is being used (such as "/cws;"
+	 * 			see plugin.yml)
+	 * @param args the command arguments (such as "help" or "reload")
+	 * 
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s,
 			String[] args) {
 		MessageFile msgs = cws.getMessages();
 		
+		// If "/chatwithstaff" is executed.
 		if (args.length == 0) {
+			
+			// Send ChatWithStaff's version number and download link.
 			String prefix = msgs.getPrefix();
 			for (String msg : info) {
 				sender.sendMessage(prefix + msg);
@@ -62,12 +103,19 @@ public class ChatWithStaffCommand implements CommandExecutor {
 			return true;
 		}
 		
+		// If there is one argument for "/chatwithstaff."
 		if (args.length == 1) {
+			
+			// If "/chatwithstaff help" is executed.
 			if (args[0].equalsIgnoreCase("help")) {
+				
+				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permHelp)) {
 					sender.sendMessage(msgs.getNoPermission(permHelp));
 					return true;
 				}
+	
+				// Sends help info found in ChatWithStaff's messages.yml file.
 				String prefix = msgs.getPrefix();
 				for (String helpMsg : msgs.getHelp()) {
 					sender.sendMessage(prefix + msgs.color(helpMsg));
@@ -75,25 +123,36 @@ public class ChatWithStaffCommand implements CommandExecutor {
 				return true;
 			} 
 			
+			// If "/chatwithstaff reload" is executed.
 			else if (args[0].equalsIgnoreCase("reload")) {
+				
+				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permReload)) {
 					sender.sendMessage(msgs.getNoPermission(permReload));
 					return true;
 				}
+				
+				// Reload ChatWithStaff's config.yml and messages.yml files.
 				cws.getConfiguration().reload();
 				msgs.reload();
 				sender.sendMessage(msgs.getReload());
 				return true;
 			} 
 			
+			// The one argument isn't "help" or "reload."
 			else {
+				
+				// Send invalid command message found in messages.yml.
 				String cmdName = "/" + cmd.getName();
 				String cmdUsed = cmdName + " " + Utils.buildString(args);
 				sender.sendMessage(msgs.getInvalidCommand(cmdUsed, cmdName + " [help | reload]"));
 				return true;
 			}
 			
+		// There is more than one argument for "/chatwithstaff."
 		} else {
+			
+			// Send invalid command message found in messages.yml.
 			String cmdName = "/" + cmd.getName();
 			String cmdUsed = cmdName + " " + Utils.buildString(args);
 			sender.sendMessage(msgs.getInvalidCommand(cmdUsed, cmdName + " [help | reload]"));
