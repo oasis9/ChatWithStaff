@@ -25,6 +25,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  * The file creation system for all of ChatWithStaff's files.
+ * 
+ * @since 1.0.0.0
  */
 public class FileCreator {
 	
@@ -49,9 +51,12 @@ public class FileCreator {
 	 * @return the file as a YamlConfiguration object
 	 */
 	public YamlConfiguration get() {
+		// If the yamlFile isn't yet loaded.
 		if (yamlFile == null) {
+			// Load yamlFile.
 			reload();
 		}
+		
 		return yamlFile;
 	}
 	
@@ -59,9 +64,13 @@ public class FileCreator {
 	 * Saves the file.
 	 */
 	public void save() {
+		// If the yamlFile isn't yet loaded.
 		if (yamlFile == null) {
+			// Load yamlFile.
 			reload();
 		}
+		
+		// Try to save yamlFile.
 		try {
 			yamlFile.save(file);
 		} catch (IOException e) {
@@ -75,16 +84,23 @@ public class FileCreator {
 	 * as well. Afterwards, it will reload the file.
 	 */
 	public void reload() {
+		// If ChatWithStaff's main directory isn't found.
 		if (!dir.exists()) {
+			// Create ChatWithStaff's main directory.
 			dir.mkdir();
 		}
+		
+		// If file isn't found.
 		if (!file.exists()) {
+			// Try to create file.
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+		
+		// Load yamlFile.
 		yamlFile = YamlConfiguration.loadConfiguration(file);
  	}
 	
@@ -92,10 +108,15 @@ public class FileCreator {
 	 * Deletes the file.
 	 */
 	public void delete() {
+		// If the file is found.
 		if (file.exists()) {
+			// Delete file.
 			file.delete();
 		}
+		
+		// If yamlFile is loaded.
 		if (yamlFile != null) {
+			// Unload yamlFile.
 			yamlFile = null;
 		}
 	}
