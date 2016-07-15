@@ -20,10 +20,15 @@ package com.jessible.chatwithstaff.files;
 import com.jessible.chatwithstaff.FileCreator;
 
 /**
- * Handles ChatForStaff's staff_chat_mode.yml file.
+ * The handler for the staff_chat_mode.yml file.
+ * 
+ * @since 1.0.0.0
  */
 public class StaffChatModeFile extends FileCreator implements YamlFile {
 	
+	/**
+	 * Initializes StaffChatModeFile class.
+	 */
 	public StaffChatModeFile() {
 		super("staff_chat_mode");
 	}
