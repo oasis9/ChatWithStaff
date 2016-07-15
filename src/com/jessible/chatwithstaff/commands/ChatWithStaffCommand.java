@@ -111,11 +111,13 @@ public class ChatWithStaffCommand implements CommandExecutor {
 				
 				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permHelp)) {
+					
+					// Send no permission message.
 					sender.sendMessage(msgs.getNoPermission(permHelp));
 					return true;
 				}
 	
-				// Send help info found in ChatWithStaff's messages.yml file.
+				// Send help information.
 				String prefix = msgs.getPrefix();
 				for (String helpMsg : msgs.getHelp()) {
 					sender.sendMessage(prefix + msgs.color(helpMsg));
@@ -128,6 +130,8 @@ public class ChatWithStaffCommand implements CommandExecutor {
 				
 				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permReload)) {
+					
+					// Send no permission message.
 					sender.sendMessage(msgs.getNoPermission(permReload));
 					return true;
 				}
@@ -142,7 +146,7 @@ public class ChatWithStaffCommand implements CommandExecutor {
 			// The one argument isn't "help" or "reload."
 			else {
 				
-				// Send invalid command message found in messages.yml.
+				// Send invalid command message.
 				String cmdName = "/" + cmd.getName();
 				String cmdUsed = cmdName + " " + Utils.buildString(args);
 				sender.sendMessage(msgs.getInvalidCommand(cmdUsed, cmdName + " [help | reload]"));
@@ -152,7 +156,7 @@ public class ChatWithStaffCommand implements CommandExecutor {
 		// There is more than one argument for "/chatwithstaff."
 		} else {
 			
-			// Send invalid command message found in messages.yml.
+			// Send invalid command message.
 			String cmdName = "/" + cmd.getName();
 			String cmdUsed = cmdName + " " + Utils.buildString(args);
 			sender.sendMessage(msgs.getInvalidCommand(cmdUsed, cmdName + " [help | reload]"));
