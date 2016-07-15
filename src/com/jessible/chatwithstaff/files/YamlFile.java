@@ -18,7 +18,9 @@
 package com.jessible.chatwithstaff.files;
 
 /**
- * Reminder for necessary methods when making a class for a yaml (.yml) file. 
+ * Reminder for necessary methods when making a class for a YAML (.yml) file. 
+ * 
+ * @since 1.0.0.0
  */
 public interface YamlFile {
 	
