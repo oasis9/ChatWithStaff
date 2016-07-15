@@ -115,7 +115,7 @@ public class ChatWithStaffCommand implements CommandExecutor {
 					return true;
 				}
 	
-				// Sends help info found in ChatWithStaff's messages.yml file.
+				// Send help info found in ChatWithStaff's messages.yml file.
 				String prefix = msgs.getPrefix();
 				for (String helpMsg : msgs.getHelp()) {
 					sender.sendMessage(prefix + msgs.color(helpMsg));
