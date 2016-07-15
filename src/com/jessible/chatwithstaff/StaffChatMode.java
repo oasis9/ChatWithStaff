@@ -27,9 +27,11 @@ import org.bukkit.entity.Player;
 import com.jessible.chatwithstaff.files.StaffChatModeFile;
 
 /**
- * Handles adding, removing, saving, and loading players to and from staff
+ * The handler for adding, removing, saving, and loading players to and from staff
  * chat mode. Staff chat mode is defined as a player who has toggled
  * their staff chat mode by using /staffchat without any arguments.
+ * 
+ * @since 1.0.0.0
  */
 public class StaffChatMode {
 	
@@ -38,6 +40,11 @@ public class StaffChatMode {
 	private ChatWithStaff cws;
 	private String staffChatPerm;
 	
+	/**
+	 * Initializes StaffChatMode class.
+	 *  
+	 * @param cws Instance of ChatWithStaff class (main class)
+	 */
 	public StaffChatMode(ChatWithStaff cws) {
 		this.scmFile = cws.getStaffChatMode();
 		this.cws = cws;
@@ -137,18 +144,22 @@ public class StaffChatMode {
 	 */
 	public String[] getNames() {
 		List<String> staffNames = new ArrayList<String>();
+		
+		// Add names of staff to staffNames.
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (player.hasPermission(staffChatPerm)) {
 				staffNames.add(player.getName());
 			}
 		}
 		
+		// Turn staffNames into a string array.
 		String[] names = new String[staffNames.size()];
 		int x = 0;
 		for (String name : staffNames) {
 			names[x] = name;
 			x++;
 		}
+		
 		return names;
 	}
 	
@@ -161,11 +172,14 @@ public class StaffChatMode {
 	 */
 	public int getAmount() {
 		List<String> staffNames = new ArrayList<String>();
+		
+		// Add names of staff to staffNames.
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			if (player.hasPermission(staffChatPerm)) {
 				staffNames.add(player.getName());
 			}
 		}
+		
 		return staffNames.size();
 	}
 	
@@ -199,17 +213,25 @@ public class StaffChatMode {
 	public String formatMessage(String message, CommandSender sender) {
 		String format = cws.getConfiguration().getFormat();
 		String prefix = cws.getMessages().getPrefix().trim();
+		
+		// Format message.
 		format = format.replace("{prefix}", prefix);
 		
+		// If the sender is a player, thus can have a display name with formatting.
 		if (sender instanceof Player) {
 			format = format.replace("{display_name}", ((Player) sender).getDisplayName());
-		} else {
+		} 
+		
+		// Sender is console, thus cannot have a display name with formatting.
+		else {
 			format = format.replace("{display_name}", sender.getName());
 		}
 		
+		// Continue to format message.
 		format = format.replace("{player_name}", sender.getName());
 		format = scmFile.color(format); // putting this here to avoid translating color codes used by the sender if inputed.
 		format = format.replace("{message}", message);
+		
 		return format;
 	}
 	
