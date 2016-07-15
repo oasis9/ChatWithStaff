@@ -30,31 +30,66 @@ import com.jessible.chatwithstaff.Utils;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
- * Handles the /staffchat command.
+ * The handler for the /staffchat command.
+ * 
+ * @since 1.0.0.0
  */
 public class StaffChatCommand implements CommandExecutor {
 	
 	private ChatWithStaff cws;
 	private String perm;
 	
+	/**
+	 * Initializes StaffChatCommand class.
+	 *  
+	 * @param cws Instance of ChatWithStaff class (main class)
+	 */
 	public StaffChatCommand(ChatWithStaff cws) {
 		this.cws = cws;
 		this.perm = Permissions.STAFFCHAT_CMD.get();
 	}
 	
 	/**
-	 * Sends a message to all staff members or toggles a player's staff chat mode.
+	 * The /staffchat command. 
+	 * <p>
+	 * <strong>/staffchat</strong>
+	 * <ul>
+	 * 		<li><strong>Example usage</strong>: /staffchat.</li>
+	 * 		<li><strong>Description</strong>: Toggles sender's staff chat mode.
+	 * 		</li>
+	 * </ul>
+	 * 
+	 * <strong>/staffchat [msg]</strong>
+	 * <ul>
+	 * 		<li><strong>Example usage</strong>: /staffchat Hello, I'm talking
+	 * 			in staff chat.</li>
+	 * 		<li><strong>Description</strong>: Sends a message to all staff
+	 * 			members.
+	 * 		</li>
+	 * </ul>
+	 * 
+	 * @param sender the command sender
+	 * @param cmd the command
+	 * @param s the shortcut/alias that is being used (such as "/sc;"
+	 * 			see plugin.yml)
+	 * @param args the command arguments (such as "Hello there")
+	 * 
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s,
 			String[] args) {
 		MessageFile msgs = cws.getMessages();
 		
+		// If the sender doesn't have permission.
 		if (!sender.hasPermission(perm)) {
+			// Send no permission message.
 			sender.sendMessage(msgs.getNoPermission(perm));
 			return true;
 		}
+		
+		// If "/staffchat" is executed.
 		if (args.length == 0) {
+
 			/* Doing a check to see if the sender is the console because:
 			 * #1. Console operators cannot chat simply by typing whatever
 			 * 	they please without the consult of a command before their message.
@@ -71,11 +106,15 @@ public class StaffChatCommand implements CommandExecutor {
 			}
 			
 			StaffChatMode scm = new StaffChatMode(cws);
+			// If sender is in staff chat mode.
 			if (scm.isInStaffChatMode(sender)) {
 				// Staff chat mode toggle off
 				scm.remove(sender);
 				sender.sendMessage(msgs.getToggleOff());
-			} else {
+			} 
+			
+			// If the sender is not in staff chat mode
+			else {
 				// Staff chat mode toggle on
 				scm.add(sender);
 				sender.sendMessage(msgs.getToggleOn());
@@ -83,6 +122,7 @@ public class StaffChatCommand implements CommandExecutor {
 			return true;
 		}
 		
+		// "/staffchat <msg>" is executed. Send <msg> to all staff members.
 		StaffChatMode scm = new StaffChatMode(cws);
 		String message = scm.formatMessage(Utils.buildString(args), sender);
 		for (Player staff : Bukkit.getOnlinePlayers()) {
