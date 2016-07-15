@@ -17,7 +17,6 @@
 
 package com.jessible.chatwithstaff;
 
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jessible.chatwithstaff.commands.ChatWithStaffCommand;
@@ -104,16 +103,6 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	public StaffChatModeFile getStaffChatMode() {
 		return scmFile;
-	}
-	
-	/**
-	 * Colors the string by translating all color codes starting with "&".
-	 * 
-	 * @param stringToColor string to color
-	 * @return the string colored
-	 */
-	public String color(String stringToColor) {
-		return ChatColor.translateAlternateColorCodes('&', stringToColor);
 	}
 	
 }

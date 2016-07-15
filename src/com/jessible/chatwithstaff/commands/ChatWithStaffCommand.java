@@ -48,8 +48,8 @@ public class ChatWithStaffCommand implements CommandExecutor {
 		this.permReload = Permissions.CHATWITHSTAFF_RELOAD_CMD.get();
 		this.version = cws.getDescription().getVersion();
 		this.info = new String[] {
-				"ChatWithStaff " + cws.color("&bv" + version),
-				"Developed by " + cws.color("&b" + "Jessible"), 
+				"ChatWithStaff " + cws.getMessages().color("&bv" + version),
+				"Developed by " + cws.getMessages().color("&b" + "Jessible"), 
 				"https://www.spigotmc.org/resources/25182/"};
 	}
 
