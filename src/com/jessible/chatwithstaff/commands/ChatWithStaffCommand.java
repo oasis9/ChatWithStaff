@@ -94,7 +94,6 @@ public class ChatWithStaffCommand implements CommandExecutor {
 		
 		// If "/chatwithstaff" is executed.
 		if (args.length == 0) {
-			
 			// Send ChatWithStaff's version number and download link.
 			String prefix = msgs.getPrefix();
 			for (String msg : info) {
@@ -111,7 +110,6 @@ public class ChatWithStaffCommand implements CommandExecutor {
 				
 				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permHelp)) {
-					
 					// Send no permission message.
 					sender.sendMessage(msgs.getNoPermission(permHelp));
 					return true;
@@ -130,7 +128,6 @@ public class ChatWithStaffCommand implements CommandExecutor {
 				
 				// If the sender doesn't have permission.
 				if (!sender.hasPermission(permReload)) {
-					
 					// Send no permission message.
 					sender.sendMessage(msgs.getNoPermission(permReload));
 					return true;
@@ -145,7 +142,6 @@ public class ChatWithStaffCommand implements CommandExecutor {
 			
 			// The one argument isn't "help" or "reload."
 			else {
-				
 				// Send invalid command message.
 				String cmdName = "/" + cmd.getName();
 				String cmdUsed = cmdName + " " + Utils.buildString(args);
@@ -155,7 +151,6 @@ public class ChatWithStaffCommand implements CommandExecutor {
 			
 		// There is more than one argument for "/chatwithstaff."
 		} else {
-			
 			// Send invalid command message.
 			String cmdName = "/" + cmd.getName();
 			String cmdUsed = cmdName + " " + Utils.buildString(args);
