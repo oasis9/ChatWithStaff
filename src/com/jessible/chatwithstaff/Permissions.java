@@ -18,17 +18,39 @@
 package com.jessible.chatwithstaff;
 
 /**
- * Permissions for ChatWithStaff.
+ * The permissions for ChatWithStaff.
+ * 
+ * @since 1.0.0.0
  */
 public enum Permissions {
 	
+	/**
+	 * Permission for "/chatwithstaff help."
+	 */
 	CHATWITHSTAFF_HELP_CMD("chatwithstaff.help"),
+	
+	/**
+	 * Permission for "/chatwithstaff reload."
+	 */
 	CHATWITHSTAFF_RELOAD_CMD("chatwithstaff.reload"),
+	
+	/**
+	 * Permission for "/staffchat" and "/staffchat [msg]."
+	 */
 	STAFFCHAT_CMD("chatwithstaff.staffchat"),
+	
+	/**
+	 * Permission for "/staffchatlist."
+	 */
 	STAFFCHATLIST_CMD("chatwithstaff.staffchatlist");
 	
 	private String permission;
 	
+	/**
+	 * Initializes Permissions enum.
+	 * 
+	 * @param permission the permission
+	 */
 	private Permissions(String permission) {
 		this.permission = permission;
 	}

@@ -29,7 +29,9 @@ import com.jessible.chatwithstaff.files.StaffChatModeFile;
 import com.jessible.chatwithstaff.listeners.StaffChatListener;
 
 /**
- * Enables and disables ChatWithStaff.
+ * The main class for ChatWithStaff.
+ * 
+ * @since 1.0.0.0
  */
 public class ChatWithStaff extends JavaPlugin {
 	
@@ -42,19 +44,24 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
+		// Setup config.yml file.
 		configFile = new ConfigFile();
 		configFile.addDefaultValues();
 		
+		// Setup messages.yml file.
 		msgFile = new MessageFile();
 		msgFile.addDefaultValues();
 		
+		// Load data from staff_chat_mode.yml.
 		scmFile = new StaffChatModeFile(); // does not have any default values, nor needs to be created upon enabling
 		new StaffChatMode(this).loadFromFile();
 		
+		// Register commands.
 		getCommand("chatwithstaff").setExecutor(new ChatWithStaffCommand(this));
 		getCommand("staffchat").setExecutor(new StaffChatCommand(this));
 		getCommand("staffchatlist").setExecutor(new StaffChatListCommand(this));
 		
+		// Register listeners.
 		getServer().getPluginManager().registerEvents(new StaffChatListener(this), this);
 	}
 	
@@ -63,7 +70,10 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
+		// Save staff names in staff chat mode to staff_chat_mode.yml.
 		new StaffChatMode(this).saveToFile();
+		
+		// Disable files.
 		configFile = null;
 		msgFile = null;
 		scmFile = null;

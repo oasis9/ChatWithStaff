@@ -20,10 +20,15 @@ package com.jessible.chatwithstaff.files;
 import com.jessible.chatwithstaff.FileCreator;
 
 /**
- * Handles ChatWithStaff's config.yml file.
+ * The handler for the config.yml file.
+ * 
+ * @since 1.0.0.0
  */
 public class ConfigFile extends FileCreator implements YamlFile {
 	
+	/**
+	 * Initializes ConfigFile class.
+	 */
 	public ConfigFile() {
 		super("config");
 	}

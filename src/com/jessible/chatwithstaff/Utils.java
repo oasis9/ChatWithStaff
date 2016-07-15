@@ -19,6 +19,8 @@ package com.jessible.chatwithstaff;
 
 /**
  * ChatWithStaff's frequently used methods.
+ * 
+ * @since 1.0.0.0
  */
 public class Utils {
 
@@ -33,13 +35,21 @@ public class Utils {
 		StringBuilder stringBuilder = new StringBuilder();
 		String lastWord = args[args.length - 1];
 		
+		// Loop through args, adding each element to stringBuilder.
 		for (String word : args) {
+			// If word is the last word in args.
 			if (word.equals(lastWord)) {
+				// Add word to stringBuilder.
 				stringBuilder.append(word);
-			} else {
+			} 
+			
+			// Word is not the last word in args.
+			else {
+				// Add word to stringBuilder, add additional space.
 				stringBuilder.append(word + " ");
 			}
 		}
+		
 		return stringBuilder.toString();
 	}
 
@@ -55,13 +65,20 @@ public class Utils {
 		StringBuilder stringBuilder = new StringBuilder();
 		String lastWord = args[args.length - 1];
 		
+		// Loop through args, adding each element to stringBuilder.
 		for (String word : args) {
-			if (word.equals(lastWord)) {
+			// If word is the last word in args.
+			if (word.equals(lastWord)) { // optimize this in the future. = ? :
+				// Add word to stringBuilder.
 				stringBuilder.append(word);
-			} else {
+			} 
+			// Word is not the last word in args.
+			else {
+				// Add word to stringBuilder, add chosenString.
 				stringBuilder.append(word + chosenString);
 			}
 		}
+		
 		return stringBuilder.toString();
 	}
 	
