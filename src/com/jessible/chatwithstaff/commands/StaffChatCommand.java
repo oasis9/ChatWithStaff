@@ -73,7 +73,6 @@ public class StaffChatCommand implements CommandExecutor {
 	 * @param s the shortcut/alias that is being used (such as "/sc;"
 	 * 			see plugin.yml)
 	 * @param args the command arguments (such as "Hello there")
-	 * 
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String s,
