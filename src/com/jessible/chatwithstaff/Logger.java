@@ -19,8 +19,6 @@ package com.jessible.chatwithstaff;
 
 import java.util.logging.Level;
 
-import org.bukkit.ChatColor;
-
 import com.jessible.chatwithstaff.files.ConfigFile;
 import com.jessible.chatwithstaff.files.StaffChatLogFile;
 
@@ -50,7 +48,7 @@ public class Logger {
 	 * @param message the message
 	 */
 	public void logToConsole(String message) {
-		cws.getLogger().log(Level.INFO, strip(message));
+		cws.getLogger().log(Level.INFO, message);
 	}
 	
 	/**
@@ -64,7 +62,7 @@ public class Logger {
 			logToConsole(message);
 		}
 		
-		cws.getLogger().log(level, strip(message));
+		cws.getLogger().log(level, message);
 	}
 	
 	/**
@@ -73,7 +71,7 @@ public class Logger {
 	 * @param message the message
 	 */
 	public void logToFile(String message) {
-		staffChatLogFile.log(strip(message));
+		staffChatLogFile.log(message);
 	}
 	
 	/**
@@ -102,16 +100,6 @@ public class Logger {
 	 */
 	public StaffChatLogFile getLog() {
 		return staffChatLogFile;
-	}
-	
-	/**
-	 * Strips all color codes from a string.
-	 * 
-	 * @param stringToStrip the string to strip
-	 * @return string without color codes
-	 */
-	private String strip(String stringToStrip) {
-		return ChatColor.stripColor(stringToStrip);
 	}
 	
 }

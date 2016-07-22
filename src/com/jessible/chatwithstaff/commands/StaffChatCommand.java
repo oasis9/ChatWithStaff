@@ -29,6 +29,7 @@ import com.jessible.chatwithstaff.Logger;
 import com.jessible.chatwithstaff.Permissions;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.Utils;
+import com.jessible.chatwithstaff.files.ConfigFile;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
@@ -134,15 +135,20 @@ public class StaffChatCommand implements CommandExecutor {
 			}
 		}
 		
+		ConfigFile config = cws.getConfiguration();
 		Logger logger = cws.getCWSLogger();
 		
-		// Logs <msg> to console.
-		String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, sender);
-		logger.logToConsole(msgToConsole);
+		if (config.canLogToConsole()) {
+			// Logs <msg> to console.
+			String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, sender);
+			logger.logToConsole(msgToConsole);
+		}
 		
-		// Logs <msg> to log file.
-		String msgToFile = scm.formatMessage(FormatType.FILE, message, sender);
-		logger.logToFile(msgToFile);
+		if (config.canLogToFile()) {
+			// Logs <msg> to staff chat log file.
+			String msgToFile = scm.formatMessage(FormatType.FILE, message, sender);
+			logger.logToFile(msgToFile);
+		}
 		return true;
 	}
 

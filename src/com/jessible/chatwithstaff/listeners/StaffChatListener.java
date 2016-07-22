@@ -28,6 +28,7 @@ import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
 import com.jessible.chatwithstaff.Permissions;
 import com.jessible.chatwithstaff.StaffChatMode;
+import com.jessible.chatwithstaff.files.ConfigFile;
 
 /**
  * The handler for when a player talks while their staff chat mode is on.
@@ -74,15 +75,21 @@ public class StaffChatListener implements Listener {
 			}
 		}
 		
+		ConfigFile config = cws.getConfiguration();
 		Logger logger = cws.getCWSLogger();
 		
-		// Logs <msg> to console.
-		String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, player);
-		logger.logToConsole(msgToConsole);
 		
-		// Logs <msg> to log file.
-		String msgToFile = scm.formatMessage(FormatType.FILE, message, player);
-		logger.logToFile(msgToFile);
+		if (config.canLogToConsole()) {
+			// Logs <msg> to console.
+			String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, player);
+			logger.logToConsole(msgToConsole);
+		}
+		
+		if (config.canLogToFile()) {
+			// Logs <msg> to staff chat log file.
+			String msgToFile = scm.formatMessage(FormatType.FILE, message, player);
+			logger.logToFile(msgToFile);
+		}
 	}
 
 }
