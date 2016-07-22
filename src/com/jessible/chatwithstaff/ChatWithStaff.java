@@ -37,6 +37,7 @@ public class ChatWithStaff extends JavaPlugin {
 	private ConfigFile configFile;
 	private MessageFile msgFile;
 	private StaffChatModeFile scmFile;
+	private Logger log;
 	
 	/**
 	 * Actions to be performed upon enabling ChatWithStaff.
@@ -54,6 +55,10 @@ public class ChatWithStaff extends JavaPlugin {
 		// Load data from staff_chat_mode.yml.
 		scmFile = new StaffChatModeFile(); // does not have any default values, nor needs to be created upon enabling
 		new StaffChatMode(this).loadFromFile();
+		
+		// Setup logger.
+		log = new Logger(this);
+		log.getLog().reload();
 		
 		// Register commands.
 		getCommand("chatwithstaff").setExecutor(new ChatWithStaffCommand(this));
@@ -103,6 +108,15 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	public StaffChatModeFile getStaffChatMode() {
 		return scmFile;
+	}
+	
+	/**
+	 * Gets the Logger class.
+	 * 
+	 * @return Logger class
+	 */
+	public Logger getCWSLogger() {
+		return log;
 	}
 	
 }
