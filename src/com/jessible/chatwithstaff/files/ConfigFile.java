@@ -35,18 +35,61 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	
 	@Override
 	public void addDefaultValues() {
-		get().addDefault("Format", "{prefix} {display_name}: &b{message}");
+		// Format options
+		get().addDefault("Format_For_Chat", "{prefix} {display_name}: &b{message}");
+		get().addDefault("Format_For_Console", "{player_name}: {message}");
+		get().addDefault("Format_For_File", "{date_and_time} {player_name}: {message}");
+		
+		// Log options
+		get().addDefault("Log_To_File", true);
+		get().addDefault("Log_To_Console", true);
 		get().options().copyDefaults(true);
 		save();
 	}
 	
 	/**
-	 * Gets the format for staff chat.
+	 * Gets the format for chat.
 	 *
-	 * @return format
+	 * @return the format for chat
 	 */
-	public String getFormat() {
-		return get().getString("Format");
+	public String getFormatForChat() {
+		return get().getString("Format_For_Chat");
+	}
+	
+	/**
+	 * Gets the format for console.
+	 *
+	 * @return the format for console
+	 */
+	public String getFormatForConsole() {
+		return get().getString("Format_For_Console");
+	}
+	
+	/**
+	 * Gets the format for file.
+	 *
+	 * @return the format for file
+	 */
+	public String getFormatForFile() {
+		return get().getString("Format_For_File");
+	}
+	
+	/**
+	 * Checks whether or not log to file is set to true.
+	 * 
+	 * @return true if true, false if false
+	 */
+	public boolean canLogToFile() {
+		return get().getBoolean("Log_To_File");
+	}
+
+	/**
+	 * Checks whether or not log to console is set to true.
+	 * 
+	 * @return true if true, false if false
+	 */
+	public boolean canLogToConsole() {
+		return get().getBoolean("Log_To_Console");
 	}
 
 }

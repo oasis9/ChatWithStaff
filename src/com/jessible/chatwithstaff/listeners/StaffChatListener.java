@@ -24,6 +24,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import com.jessible.chatwithstaff.ChatWithStaff;
+import com.jessible.chatwithstaff.FormatType;
+import com.jessible.chatwithstaff.Logger;
 import com.jessible.chatwithstaff.Permissions;
 import com.jessible.chatwithstaff.StaffChatMode;
 
@@ -65,13 +67,22 @@ public class StaffChatListener implements Listener {
 		e.setCancelled(true);
 		
 		// Send message to all staff members.
-		message = scm.formatMessage(message, player);
+		String messageToStaff = scm.formatMessage(FormatType.CHAT, message, player);
 		for (Player staff : Bukkit.getOnlinePlayers()) {
 			if (staff.hasPermission(perm)) {
-				staff.sendMessage(message);
+				staff.sendMessage(messageToStaff);
 			}
 		}
 		
+		Logger logger = cws.getCWSLogger();
+		
+		// Logs <msg> to console.
+		String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, player);
+		logger.logToConsole(msgToConsole);
+		
+		// Logs <msg> to log file.
+		String msgToFile = scm.formatMessage(FormatType.FILE, message, player);
+		logger.logToFile(msgToFile);
 	}
 
 }
