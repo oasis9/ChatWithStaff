@@ -41,8 +41,8 @@ public class ConfigFile extends FileCreator implements YamlFile {
 		get().addDefault("Format_For_File", "{date_and_time} {player_name}: {message}");
 		
 		// Log options
-		get().addDefault("Log_To_File", true);
 		get().addDefault("Log_To_Console", true);
+		get().addDefault("Log_To_File", true);
 		get().options().copyDefaults(true);
 		save();
 	}
@@ -73,15 +73,6 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	public String getFormatForFile() {
 		return get().getString("Format_For_File");
 	}
-	
-	/**
-	 * Checks whether or not log to file is set to true.
-	 * 
-	 * @return true if true, false if false
-	 */
-	public boolean canLogToFile() {
-		return get().getBoolean("Log_To_File");
-	}
 
 	/**
 	 * Checks whether or not log to console is set to true.
@@ -92,4 +83,14 @@ public class ConfigFile extends FileCreator implements YamlFile {
 		return get().getBoolean("Log_To_Console");
 	}
 
+	
+	/**
+	 * Checks whether or not log to file is set to true.
+	 * 
+	 * @return true if true, false if false
+	 */
+	public boolean canLogToFile() {
+		return get().getBoolean("Log_To_File");
+	}
+	
 }
