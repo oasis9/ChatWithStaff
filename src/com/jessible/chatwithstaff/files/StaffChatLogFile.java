@@ -1,4 +1,5 @@
-/* ChatWithStaff - Chat with your staff in private.
+/*
+ * ChatWithStaff - Chat with your staff in private.
  * Copyright (C) 2016 Jessible
  *
  * This program is free software: you can redistribute it and/or modify
