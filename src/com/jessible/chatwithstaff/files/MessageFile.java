@@ -42,11 +42,12 @@ public class MessageFile extends FileCreator implements YamlFile {
 	public void addDefaultValues() {
 		get().addDefault("Prefix", "&8[&aChatWithStaff&8]");
 		get().addDefault("No_Permission", "&4You &cdo not have the &4{permission} &cpermission.");
-		get().addDefault("Invalid_Command", "&4{used_command} &cis an invalid command. Did you mean &4{suggested_command}&c?");
 		get().addDefault("No_Console", "You cannot use {used_command} from the console. Try {suggested_command}.");
+		get().addDefault("Invalid_Command", "&4{used_command} &cis an invalid command. Did you mean &4{suggested_command}&c?");
+		get().addDefault("Reload", "&fFiles &bconfig.yml &fand &bmessages.yml &fhas been reloaded.");
+		
 		get().addDefault("Toggle_On", "&fStaff chat mode: &bON&f.");
 		get().addDefault("Toggle_Off", "&fStaff chat mode: &cOFF&f.");
-		get().addDefault("Reload", "&fFiles &bconfig.yml &fand &bmessages.yml &fhas been reloaded.");
 		get().addDefault("Verb-1", "is");
 		get().addDefault("Verb-2", "are");
 		
@@ -90,6 +91,18 @@ public class MessageFile extends FileCreator implements YamlFile {
 	}
 	
 	/**
+	 * Gets the No_Console message.
+	 * 
+	 * @param usedCommand command used
+	 * @param suggestedCommand command suggested
+	 * @return No_Console message
+	 */
+	public String getNoConsole(String usedCommand, String suggestedCommand) {
+		return getMessage("No_Console").replace("{used_command}", usedCommand)
+				.replace("{suggested_command}", suggestedCommand);
+	}
+	
+	/**
 	 * Gets the Invalid_Command message.
 	 * 
 	 * @param usedCommand command used
@@ -102,15 +115,12 @@ public class MessageFile extends FileCreator implements YamlFile {
 	}
 	
 	/**
-	 * Gets the No_Console message.
+	 * Gets the Reload message.
 	 * 
-	 * @param usedCommand command used
-	 * @param suggestedCommand command suggested
-	 * @return No_Console message
+	 * @return Reload message
 	 */
-	public String getNoConsole(String usedCommand, String suggestedCommand) {
-		return getMessage("No_Console").replace("{used_command}", usedCommand)
-				.replace("{suggested_command}", suggestedCommand);
+	public String getReload() {
+		return getMessage("Reload");
 	}
 	
 	/**
@@ -129,15 +139,6 @@ public class MessageFile extends FileCreator implements YamlFile {
 	 */
 	public String getToggleOff() {
 		return getMessage("Toggle_Off");
-	}
-	
-	/**
-	 * Gets the Reload message.
-	 * 
-	 * @return Reload message
-	 */
-	public String getReload() {
-		return getMessage("Reload");
 	}
 	
 	/**
