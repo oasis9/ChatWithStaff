@@ -18,16 +18,13 @@
 
 package com.jessible.chatwithstaff;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.jessible.chatwithstaff.files.ConfigFile;
 import com.jessible.chatwithstaff.files.StaffChatModeFile;
 
 /**
@@ -40,9 +37,7 @@ import com.jessible.chatwithstaff.files.StaffChatModeFile;
 public class StaffChatMode {
 	
 	private static List<String> playersInStaffChat = new ArrayList<String>();
-	private ChatWithStaff cws;
 	private StaffChatModeFile scmFile;
-	private ConfigFile config;
 	private String staffChatPerm;
 	
 	/**
@@ -51,9 +46,7 @@ public class StaffChatMode {
 	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
 	public StaffChatMode(ChatWithStaff cws) {
-		this.cws = cws;
 		this.scmFile = cws.getStaffChatMode();
-		this.config = cws.getConfiguration();
 		this.staffChatPerm = Permissions.STAFFCHAT_CMD.get();
 	}
 	
@@ -207,62 +200,6 @@ public class StaffChatMode {
 			playersInStaffChat.add(name);
 		}
 		scmFile.delete();
-	}
-	
-	/**
-	 * Formats a message the way its defined in ChatWithStaff's config.yml file.
-	 * 
-	 * @param message the message
-	 * @param sender the one in staff chat
-	 * @return message formatted
-	 */
-	public String formatMessage(FormatType type, String message, CommandSender sender) {
-		String format;
-		
-		// If the format is chat.
-		if (type == FormatType.CHAT) {
-			// Set format to chat.
-			format = config.getFormatForChat();
-		}
-		
-		// If the format is console.
-		else if (type == FormatType.CONSOLE) {
-			// Set format to console.
-			format = config.getFormatForConsole();
-		}
-		
-		// If the format is file - only option after this point.
-		else {
-			// Set format to file.
-			format = config.getFormatForFile();
-		}
-		
-		String prefix = cws.getMessages().getPrefix().trim();
-		
-		// Format message.
-		format = format.replace("{prefix}", prefix);
-		
-		// If the sender is a player, thus can have a display name with formatting.
-		if (sender instanceof Player) {
-			format = format.replace("{display_name}", ((Player) sender).getDisplayName());
-		} 
-		
-		// Sender is console, thus cannot have a display name with formatting.
-		else {
-			format = format.replace("{display_name}", sender.getName());
-		}
-		
-		// Continue to format message.
-		format = format.replace("{player_name}", sender.getName());
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy [HH:mm:ss]");
-		Date date = new Date(System.currentTimeMillis());
-		format = format.replace("{date_and_time}", dateFormat.format(date));
-		
-		format = scmFile.color(format); // putting this here to avoid translating color codes used by the sender if inputed.
-		format = format.replace("{message}", message);
-		
-		return format;
 	}
 	
 }

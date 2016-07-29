@@ -18,7 +18,6 @@
 
 package com.jessible.chatwithstaff.listeners;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +26,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
-import com.jessible.chatwithstaff.Permissions;
+import com.jessible.chatwithstaff.StaffChatMessage;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.files.ConfigFile;
 
@@ -39,7 +38,6 @@ import com.jessible.chatwithstaff.files.ConfigFile;
 public class StaffChatListener implements Listener {
 	
 	private ChatWithStaff cws;
-	private String perm;
 	
 	/**
 	 * Initializes StaffChatListener class.
@@ -48,7 +46,6 @@ public class StaffChatListener implements Listener {
 	 */
 	public StaffChatListener(ChatWithStaff cws) {
 		this.cws = cws;
-		this.perm = Permissions.STAFFCHAT_CMD.get();
 	}
 
 	/**
@@ -59,7 +56,7 @@ public class StaffChatListener implements Listener {
 	@EventHandler
 	public void onPlayerChatInStaffChat(AsyncPlayerChatEvent e) {
 		Player player = e.getPlayer();
-		String message = e.getMessage();
+		String msg = e.getMessage();
 		StaffChatMode scm = new StaffChatMode(cws);
 		
 		// If the player is not in staff chat mode.
@@ -68,27 +65,25 @@ public class StaffChatListener implements Listener {
 		}
 		e.setCancelled(true);
 		
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, player, cws);
+		
 		// Send message to all staff members.
-		String messageToStaff = scm.formatMessage(FormatType.CHAT, message, player);
-		for (Player staff : Bukkit.getOnlinePlayers()) {
-			if (staff.hasPermission(perm)) {
-				staff.sendMessage(messageToStaff);
-			}
-		}
+		staffMsg.sendToStaff();
 		
 		ConfigFile config = cws.getConfiguration();
 		Logger logger = cws.getCWSLogger();
 		
-		
 		if (config.canLogToConsole()) {
 			// Logs <msg> to console.
-			String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, player);
+			staffMsg.format(FormatType.CONSOLE);
+			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
 		if (config.canLogToFile()) {
 			// Logs <msg> to staff chat log file.
-			String msgToFile = scm.formatMessage(FormatType.FILE, message, player);
+			staffMsg.format(FormatType.FILE);
+			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);
 		}
 	}

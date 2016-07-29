@@ -18,7 +18,6 @@
 
 package com.jessible.chatwithstaff.commands;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,6 +27,7 @@ import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
 import com.jessible.chatwithstaff.Permissions;
+import com.jessible.chatwithstaff.StaffChatMessage;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.Utils;
 import com.jessible.chatwithstaff.files.ConfigFile;
@@ -125,29 +125,27 @@ public class StaffChatCommand implements CommandExecutor {
 			return true;
 		}
 		// "/staffchat <msg>" is executed. 
-		String message = Utils.buildString(args);
+		String msg = Utils.buildString(args);
+		
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, sender, cws);
 		
 		// Send <msg> to all staff members.
-		StaffChatMode scm = new StaffChatMode(cws);
-		String msgToStaff = scm.formatMessage(FormatType.CHAT, message, sender);
-		for (Player staff : Bukkit.getOnlinePlayers()) {
-			if (staff.hasPermission(perm)) {
-				staff.sendMessage(msgToStaff);
-			}
-		}
+		staffMsg.sendToStaff();
 		
 		ConfigFile config = cws.getConfiguration();
 		Logger logger = cws.getCWSLogger();
 		
 		if (config.canLogToConsole()) {
 			// Logs <msg> to console.
-			String msgToConsole = scm.formatMessage(FormatType.CONSOLE, message, sender);
+			staffMsg.format(FormatType.CONSOLE);
+			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
 		if (config.canLogToFile()) {
 			// Logs <msg> to staff chat log file.
-			String msgToFile = scm.formatMessage(FormatType.FILE, message, sender);
+			staffMsg.format(FormatType.FILE);
+			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);
 		}
 		return true;
