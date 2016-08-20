@@ -24,6 +24,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.jessible.chatwithstaff.ChatWithStaff;
+import com.jessible.chatwithstaff.CommandHelper;
 import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
 import com.jessible.chatwithstaff.Permissions;
@@ -38,19 +39,18 @@ import com.jessible.chatwithstaff.files.MessageFile;
  * 
  * @since 1.0.0.0
  */
-public class StaffChatCommand implements CommandExecutor {
+public class StaffChatCommand extends CommandHelper implements CommandExecutor {
 	
+	private Permissions perm;
 	private ChatWithStaff cws;
-	private String perm;
 	
 	/**
 	 * Initializes StaffChatCommand class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatCommand(ChatWithStaff cws) {
-		this.cws = cws;
-		this.perm = Permissions.STAFFCHAT_CMD.get();
+	public StaffChatCommand() {
+		super("[message]");
+		this.perm = Permissions.CMD_STAFFCHAT;
+		this.cws = ChatWithStaff.getInstance();
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class StaffChatCommand implements CommandExecutor {
 	 * 		</li>
 	 * </ul>
 	 * 
-	 * <strong>/staffchat [msg]</strong>
+	 * <strong>/staffchat message</strong>
 	 * <ul>
 	 * 		<li><strong>Example usage</strong>: /staffchat Hello, I'm talking
 	 * 			in staff chat.</li>
@@ -72,26 +72,27 @@ public class StaffChatCommand implements CommandExecutor {
 	 * 		</li>
 	 * </ul>
 	 * 
-	 * @param sender the command sender
-	 * @param cmd the command
-	 * @param s the shortcut/alias that is being used (such as "/sc;"
-	 * 			see plugin.yml)
-	 * @param args the command arguments (such as "Hello there")
+	 * @param sender Command sender
+	 * @param baseCmd Base command (/staffchat)
+	 * @param cmd Command that is being used ("/sc" - see plugin.yml)
+	 * @param args Command arguments (such as "Hello there")
 	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String s,
+	public boolean onCommand(CommandSender sender, Command baseCmd, String cmd,
 			String[] args) {
 		MessageFile msgs = cws.getMessages();
 		
 		// If the sender doesn't have permission.
-		if (!sender.hasPermission(perm)) {
-			// Send no permission message.
-			sender.sendMessage(msgs.getNoPermission(perm));
+		if (!hasPermission(perm, sender)) {
+			// hasPermission(Permissions, CommandSender) sends the no
+			// permission message.
 			return true;
 		}
+		// The sender has permission.
 		
-		// If "/staffchat" is executed.
+		// If "/staffchat" is executed with no arguments.
 		if (args.length == 0) {
+			// The sender is toggling their staff chat mode.
 
 			/* Doing a check to see if the sender is the console because:
 			 * #1. Console operators cannot chat simply by typing whatever
@@ -102,13 +103,14 @@ public class StaffChatCommand implements CommandExecutor {
 			 * staff_chat_mode.yml file. (see #1)
 			 */
 			if (!(sender instanceof Player)) {
-				String cmdName = "/" + cmd.getName();
-				String cmdUsed = cmdName + " " + Utils.buildString(args);
-				sender.sendMessage(msgs.getNoConsole(cmdUsed, cmdName + " [message]"));
+				String cmdName = "/" + cmd;
+				sender.sendMessage(msgs.getNoConsole(cmdName, getCommandUsage(cmd)));
 				return true;
 			}
+			// The sender is a player.
 			
-			StaffChatMode scm = new StaffChatMode(cws);
+			StaffChatMode scm = new StaffChatMode();
+			
 			// If sender is in staff chat mode.
 			if (scm.isInStaffChatMode(sender)) {
 				// Staff chat mode toggle off
@@ -125,25 +127,26 @@ public class StaffChatCommand implements CommandExecutor {
 			return true;
 		}
 		// "/staffchat <msg>" is executed. 
-		String msg = Utils.buildString(args);
 		
-		StaffChatMessage staffMsg = new StaffChatMessage(msg, sender, cws);
+		String msg = Utils.buildString(args);
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, sender);
+		ConfigFile config = cws.getConfiguration();
+		Logger logger = cws.getCWSLogger();
 		
 		// Send <msg> to all staff members.
 		staffMsg.sendToStaff();
 		
-		ConfigFile config = cws.getConfiguration();
-		Logger logger = cws.getCWSLogger();
-		
+		// If the staff message can be logged to console.
 		if (config.canLogToConsole()) {
-			// Logs <msg> to console.
+			// Log <msg> to console.
 			staffMsg.format(FormatType.CONSOLE);
 			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
+		// If the staff message can be logged to the log file.
 		if (config.canLogToFile()) {
-			// Logs <msg> to staff chat log file.
+			// Log <msg> to staff chat log file.
 			staffMsg.format(FormatType.FILE);
 			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);

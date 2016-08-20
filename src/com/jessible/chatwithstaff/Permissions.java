@@ -28,22 +28,22 @@ public enum Permissions {
 	/**
 	 * Permission for "/chatwithstaff help."
 	 */
-	CHATWITHSTAFF_HELP_CMD("chatwithstaff.help"),
+	CMD_CHATWITHSTAFF_HELP("help"),
 	
 	/**
 	 * Permission for "/chatwithstaff reload."
 	 */
-	CHATWITHSTAFF_RELOAD_CMD("chatwithstaff.reload"),
+	CMD_CHATWITHSTAFF_RELOAD("reload"),
 	
 	/**
 	 * Permission for "/staffchat" and "/staffchat [msg]."
 	 */
-	STAFFCHAT_CMD("chatwithstaff.staffchat"),
+	CMD_STAFFCHAT("staffchat"),
 	
 	/**
 	 * Permission for "/staffchatlist."
 	 */
-	STAFFCHATLIST_CMD("chatwithstaff.staffchatlist");
+	CMD_STAFFCHATLIST("staffchatlist");
 	
 	private String permission;
 	
@@ -53,7 +53,7 @@ public enum Permissions {
 	 * @param permission the permission
 	 */
 	private Permissions(String permission) {
-		this.permission = permission;
+		this.permission = "chatwithstaff." + permission;
 	}
 	
 	/**

@@ -18,10 +18,26 @@
 
 package com.jessible.chatwithstaff;
 
+/**
+ * ChatWithStaff's staff chat format types.
+ * 
+ * @since 1.0.2.0
+ */
 public enum FormatType {
 	
+	/**
+	 * Staff chat format for chat.
+	 */
 	CHAT,
+	
+	/**
+	 * Staff chat format for console.
+	 */
 	CONSOLE,
+	
+	/**
+	 * Staff chat format for log file.
+	 */
 	FILE;
 
 }

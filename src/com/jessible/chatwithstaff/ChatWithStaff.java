@@ -35,6 +35,7 @@ import com.jessible.chatwithstaff.listeners.StaffChatListener;
  */
 public class ChatWithStaff extends JavaPlugin {
 	
+	private static ChatWithStaff cws;
 	private ConfigFile configFile;
 	private MessageFile msgFile;
 	private StaffChatModeFile scmFile;
@@ -45,6 +46,9 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	@Override
 	public void onEnable() {
+		// Setup instance.
+		ChatWithStaff.cws = this;
+		
 		// Setup config.yml file.
 		configFile = new ConfigFile();
 		configFile.addDefaultValues();
@@ -55,19 +59,19 @@ public class ChatWithStaff extends JavaPlugin {
 		
 		// Load data from staff_chat_mode.yml.
 		scmFile = new StaffChatModeFile(); // does not have any default values, nor needs to be created upon enabling
-		new StaffChatMode(this).loadFromFile();
+		new StaffChatMode().loadFromFile();
 		
 		// Setup logger.
-		log = new Logger(this);
+		log = new Logger();
 		log.getLog().reload();
 		
 		// Register commands.
-		getCommand("chatwithstaff").setExecutor(new ChatWithStaffCommand(this));
-		getCommand("staffchat").setExecutor(new StaffChatCommand(this));
-		getCommand("staffchatlist").setExecutor(new StaffChatListCommand(this));
+		getCommand("chatwithstaff").setExecutor(new ChatWithStaffCommand());
+		getCommand("staffchat").setExecutor(new StaffChatCommand());
+		getCommand("staffchatlist").setExecutor(new StaffChatListCommand());
 		
 		// Register listeners.
-		getServer().getPluginManager().registerEvents(new StaffChatListener(this), this);
+		getServer().getPluginManager().registerEvents(new StaffChatListener(), this);
 	}
 	
 	/**
@@ -76,7 +80,10 @@ public class ChatWithStaff extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// Save staff names in staff chat mode to staff_chat_mode.yml.
-		new StaffChatMode(this).saveToFile();
+		new StaffChatMode().saveToFile();
+		
+		// Nullify instance.
+		cws = null;
 		
 		// Disable files.
 		configFile = null;
@@ -118,6 +125,15 @@ public class ChatWithStaff extends JavaPlugin {
 	 */
 	public Logger getCWSLogger() {
 		return log;
+	}
+	
+	/**
+	 * Gets the instance of ChatWithStaff.
+	 * 
+	 * @return ChatWithStaff instance
+	 */
+	public static ChatWithStaff getInstance() {
+		return cws;
 	}
 	
 }

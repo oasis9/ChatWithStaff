@@ -41,11 +41,9 @@ public class StaffChatListener implements Listener {
 	
 	/**
 	 * Initializes StaffChatListener class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatListener(ChatWithStaff cws) {
-		this.cws = cws;
+	public StaffChatListener() {
+		this.cws = ChatWithStaff.getInstance();
 	}
 
 	/**
@@ -57,31 +55,34 @@ public class StaffChatListener implements Listener {
 	public void onPlayerChatInStaffChat(AsyncPlayerChatEvent e) {
 		Player player = e.getPlayer();
 		String msg = e.getMessage();
-		StaffChatMode scm = new StaffChatMode(cws);
+		StaffChatMode scm = new StaffChatMode();
 		
 		// If the player is not in staff chat mode.
 		if (!scm.isInStaffChatMode(player)) {
 			return;
 		}
+		// The player is in staff chat mode.
 		e.setCancelled(true);
 		
-		StaffChatMessage staffMsg = new StaffChatMessage(msg, player, cws);
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, player);
+		ConfigFile config = cws.getConfiguration();
+		Logger logger = cws.getCWSLogger();
 		
 		// Send message to all staff members.
 		staffMsg.sendToStaff();
 		
-		ConfigFile config = cws.getConfiguration();
-		Logger logger = cws.getCWSLogger();
 		
+		// If the staff message can be logged to console.
 		if (config.canLogToConsole()) {
-			// Logs <msg> to console.
+			// Log <msg> to console.
 			staffMsg.format(FormatType.CONSOLE);
 			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
+		// If the staff message can be logged to the log file.
 		if (config.canLogToFile()) {
-			// Logs <msg> to staff chat log file.
+			// Log <msg> to staff chat log file.
 			staffMsg.format(FormatType.FILE);
 			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);
