@@ -34,23 +34,21 @@ import com.jessible.chatwithstaff.files.ConfigFile;
  */
 public class StaffChatMessage {
 	
+	private ChatWithStaff cws;
 	private String message, formattedMessage;
 	private CommandSender sender;
-	private ChatWithStaff cws;
 	
 	/**
 	 * Creates a new staff chat message.
 	 * 
 	 * @param message the staff chat message
 	 * @param sender the sender
-	 * @param cws instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatMessage(String message, CommandSender sender,
-			ChatWithStaff cws) {
+	public StaffChatMessage(String message, CommandSender sender) {
+		this.cws = ChatWithStaff.getInstance();
 		this.message = message;
 		this.formattedMessage = null;
 		this.sender = sender;
-		this.cws = cws;
 	}
 
 	/**

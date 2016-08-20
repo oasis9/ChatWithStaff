@@ -40,11 +40,9 @@ public class ChatWithStaffCommand implements CommandExecutor {
 	
 	/**
 	 * Initializes ChatWithStaffCommand class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public ChatWithStaffCommand(ChatWithStaff cws) {
-		this.cws = cws;
+	public ChatWithStaffCommand() {
+		this.cws = ChatWithStaff.getInstance();
 		this.permHelp = Permissions.CHATWITHSTAFF_HELP_CMD.get();
 		this.permReload = Permissions.CHATWITHSTAFF_RELOAD_CMD.get();
 		this.version = cws.getDescription().getVersion();

@@ -40,11 +40,9 @@ public class StaffChatListCommand implements CommandExecutor {
 	
 	/**
 	 * Initializes StaffChatListCommand class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatListCommand(ChatWithStaff cws) {
-		this.cws = cws;
+	public StaffChatListCommand() {
+		this.cws = ChatWithStaff.getInstance();
 		this.perm = Permissions.STAFFCHATLIST_CMD.get();
 	}
 
@@ -88,7 +86,7 @@ public class StaffChatListCommand implements CommandExecutor {
 		}
 		
 		// "/staffchatlist" is executed.
-		StaffChatMode scm = new StaffChatMode(cws);
+		StaffChatMode scm = new StaffChatMode();
 		int staffAmount = scm.getAmount();
 		String andOrIs = staffAmount == 1 ? msgs.getVerb1() : msgs.getVerb2();
 		String sOrNoS = staffAmount == 1 ? "" : "s"; // s or no s

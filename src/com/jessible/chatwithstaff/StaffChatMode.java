@@ -45,8 +45,8 @@ public class StaffChatMode {
 	 *  
 	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatMode(ChatWithStaff cws) {
-		this.scmFile = cws.getStaffChatMode();
+	public StaffChatMode() {
+		this.scmFile = ChatWithStaff.getInstance().getStaffChatMode();
 		this.staffChatPerm = Permissions.STAFFCHAT_CMD.get();
 	}
 	

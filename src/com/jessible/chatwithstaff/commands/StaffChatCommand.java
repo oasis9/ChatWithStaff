@@ -45,11 +45,9 @@ public class StaffChatCommand implements CommandExecutor {
 	
 	/**
 	 * Initializes StaffChatCommand class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatCommand(ChatWithStaff cws) {
-		this.cws = cws;
+	public StaffChatCommand() {
+		this.cws = ChatWithStaff.getInstance();
 		this.perm = Permissions.STAFFCHAT_CMD.get();
 	}
 	
@@ -108,7 +106,7 @@ public class StaffChatCommand implements CommandExecutor {
 				return true;
 			}
 			
-			StaffChatMode scm = new StaffChatMode(cws);
+			StaffChatMode scm = new StaffChatMode();
 			// If sender is in staff chat mode.
 			if (scm.isInStaffChatMode(sender)) {
 				// Staff chat mode toggle off
@@ -127,7 +125,7 @@ public class StaffChatCommand implements CommandExecutor {
 		// "/staffchat <msg>" is executed. 
 		String msg = Utils.buildString(args);
 		
-		StaffChatMessage staffMsg = new StaffChatMessage(msg, sender, cws);
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, sender);
 		
 		// Send <msg> to all staff members.
 		staffMsg.sendToStaff();

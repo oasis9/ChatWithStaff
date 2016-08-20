@@ -35,11 +35,9 @@ public class Logger {
 	
 	/**
 	 * Initializes StaffChatLogFile class.
-	 * 
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public Logger(ChatWithStaff cws) {
-		this.cws = cws;
+	public Logger() {
+		this.cws = ChatWithStaff.getInstance();
 		this.staffChatLogFile = new StaffChatLogFile();
 	}
 	

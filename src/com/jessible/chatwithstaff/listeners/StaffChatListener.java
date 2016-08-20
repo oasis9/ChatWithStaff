@@ -41,11 +41,9 @@ public class StaffChatListener implements Listener {
 	
 	/**
 	 * Initializes StaffChatListener class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
-	public StaffChatListener(ChatWithStaff cws) {
-		this.cws = cws;
+	public StaffChatListener() {
+		this.cws = ChatWithStaff.getInstance();
 	}
 
 	/**
@@ -57,7 +55,7 @@ public class StaffChatListener implements Listener {
 	public void onPlayerChatInStaffChat(AsyncPlayerChatEvent e) {
 		Player player = e.getPlayer();
 		String msg = e.getMessage();
-		StaffChatMode scm = new StaffChatMode(cws);
+		StaffChatMode scm = new StaffChatMode();
 		
 		// If the player is not in staff chat mode.
 		if (!scm.isInStaffChatMode(player)) {
@@ -65,7 +63,7 @@ public class StaffChatListener implements Listener {
 		}
 		e.setCancelled(true);
 		
-		StaffChatMessage staffMsg = new StaffChatMessage(msg, player, cws);
+		StaffChatMessage staffMsg = new StaffChatMessage(msg, player);
 		
 		// Send message to all staff members.
 		staffMsg.sendToStaff();
