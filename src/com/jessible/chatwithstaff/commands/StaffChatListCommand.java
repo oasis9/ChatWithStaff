@@ -23,6 +23,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.jessible.chatwithstaff.ChatWithStaff;
+import com.jessible.chatwithstaff.CommandHelper;
 import com.jessible.chatwithstaff.Permissions;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.Utils;
@@ -33,17 +34,18 @@ import com.jessible.chatwithstaff.files.MessageFile;
  * 
  * @since 1.0.1.0
  */
-public class StaffChatListCommand implements CommandExecutor {
+public class StaffChatListCommand extends CommandHelper implements CommandExecutor {
 	
+	private Permissions perm;
 	private ChatWithStaff cws;
-	private String perm;
 	
 	/**
 	 * Initializes StaffChatListCommand class.
 	 */
 	public StaffChatListCommand() {
+		super("");
+		this.perm = Permissions.CMD_STAFFCHATLIST;
 		this.cws = ChatWithStaff.getInstance();
-		this.perm = Permissions.STAFFCHATLIST_CMD.get();
 	}
 
 	/**
@@ -57,35 +59,31 @@ public class StaffChatListCommand implements CommandExecutor {
 	 * 		</li>
 	 * </ul>
 	 * 
-	 * @param sender the command sender
-	 * @param cmd the command
-	 * @param s the shortcut/alias that is being used (such as "/scl;"
-	 * 			see plugin.yml)
-	 * @param args the command arguments (there are none for this command)
-	 * 
+	 * @param sender Command sender
+	 * @param baseCmd Base command (/staffchatlist)
+	 * @param cmd Command that is being used ("/scl" - see plugin.yml)
+	 * @param args Command arguments (none)
 	 */
 	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String s,
+	public boolean onCommand(CommandSender sender, Command baseCmd, String cmd,
 			String[] args) {
 		MessageFile msgs = cws.getMessages();
 		
 		// If the sender doesn't have permission.
-		if (!sender.hasPermission(perm)) {
-			// Send no permission message.
-			sender.sendMessage(msgs.getNoPermission(perm));
+		if (!hasPermission(perm, sender)) {
+			// hasPermission(Permissions, CommandSender) sends the no
+			// permission message.
 			return true;
 		}
 		
-		// If there are arguments to "/staffchatlist."
+		// If "/staffchatlist" is executed with arguments.
 		if (args.length != 0) {
 			// Send invalid command message.
-			String cmdName = "/" + cmd.getName();
-			String cmdUsed = cmdName + " " + Utils.buildString(args);
-			sender.sendMessage(msgs.getInvalidCommand(cmdUsed, cmdName));
+			invalidCommand(cmd, args, sender);
 			return true;
 		}
+		// "/staffchatlist" is executed without arguments.
 		
-		// "/staffchatlist" is executed.
 		StaffChatMode scm = new StaffChatMode();
 		int staffAmount = scm.getAmount();
 		String andOrIs = staffAmount == 1 ? msgs.getVerb1() : msgs.getVerb2();

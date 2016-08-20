@@ -34,8 +34,6 @@ public class StaffChatLogFile {
 	
 	/**
 	 * Initializes StaffChatLogFile class.
-	 * 
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
 	public StaffChatLogFile() {
 		this.dir = new File("plugins" + File.separator + "ChatWithStaff");

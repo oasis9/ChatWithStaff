@@ -36,14 +36,32 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	
 	@Override
 	public void addDefaultValues() {
-		// Format options
-		get().addDefault("Format_For_Chat", "{prefix} {display_name}: &b{message}");
-		get().addDefault("Format_For_Console", "{player_name}: {message}");
-		get().addDefault("Format_For_File", "{date_and_time} {player_name}: {message}");
+		// Format_For_Chat
+		get().addDefault(
+				"Format_For_Chat",
+				"{prefix} {display_name}: &b{message}");
 		
-		// Log options
-		get().addDefault("Log_To_Console", true);
-		get().addDefault("Log_To_File", true);
+		// Format_For_Console
+		get().addDefault(
+				"Format_For_Console",
+				"{player_name}: {message}");
+		
+		// Format_For_File
+		get().addDefault(
+				"Format_For_File",
+				"{date_and_time} {player_name}: {message}");
+		
+		// Log_To_Console
+		get().addDefault(
+				"Log_To_Console",
+				true);
+		
+		// Log_To_File
+		get().addDefault(
+				"Log_To_File",
+				true);
+		
+		// Save default values.
 		get().options().copyDefaults(true);
 		save();
 	}

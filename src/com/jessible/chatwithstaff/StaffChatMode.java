@@ -47,7 +47,7 @@ public class StaffChatMode {
 	 */
 	public StaffChatMode() {
 		this.scmFile = ChatWithStaff.getInstance().getStaffChatMode();
-		this.staffChatPerm = Permissions.STAFFCHAT_CMD.get();
+		this.staffChatPerm = Permissions.CMD_STAFFCHAT.get();
 	}
 	
 	/**

@@ -40,22 +40,60 @@ public class MessageFile extends FileCreator implements YamlFile {
 
 	@Override
 	public void addDefaultValues() {
-		get().addDefault("Prefix", "&8[&aChatWithStaff&8]");
-		get().addDefault("No_Permission", "&4You &cdo not have the &4{permission} &cpermission.");
-		get().addDefault("No_Console", "You cannot use {used_command} from the console. Try {suggested_command}.");
-		get().addDefault("Invalid_Command", "&4{used_command} &cis an invalid command. Did you mean &4{suggested_command}&c?");
-		get().addDefault("Reload", "&fFiles &bconfig.yml &fand &bmessages.yml &fhas been reloaded.");
+		// Prefix
+		get().addDefault(
+				"Prefix", 
+				"&8[&aChatWithStaff&8]");
 		
-		get().addDefault("Toggle_On", "&fStaff chat mode: &bON&f.");
-		get().addDefault("Toggle_Off", "&fStaff chat mode: &cOFF&f.");
-		get().addDefault("Verb-1", "is");
-		get().addDefault("Verb-2", "are");
+		// No_Permission
+		get().addDefault(
+				"No_Permission",
+				"&4You &cdo not have the &4{permission} &cpermission.");
 		
+		// No_Console
+		get().addDefault(
+				"No_Console",
+				"You cannot use {used_command} from the console. "
+				+ "Try {suggested_command}.");
+		
+		// Invalid_Command
+		get().addDefault(
+				"Invalid_Command",
+				"&4{used_command} &cis an invalid command. "
+				+ "Did you mean &4{suggested_command}&c?");
+		
+		// Reload
+		get().addDefault(
+				"Reload",
+				"&fFiles &bconfig.yml &fand &bmessages.yml &fhas been reloaded.");
+		
+		// Toggle_On
+		get().addDefault(
+				"Toggle_On",
+				"&fStaff chat mode: &bON&f.");
+		
+		// Toggle_Off
+		get().addDefault(
+				"Toggle_Off",
+				"&fStaff chat mode: &cOFF&f.");
+		
+		// Verb-1 (Change to Word_Is)
+		get().addDefault(
+				"Verb-1",
+				"is");
+		
+		// Verb-1 (Change to Word_Are)
+		get().addDefault(
+				"Verb-2",
+				"are");
+		
+		// List
 		List<String> list = new ArrayList<String>();
 		list.add("&fThere {verb} &b{amount} &fstaff member{s} viewing staff chat:");
 		list.add("&b{staff}");
 		get().addDefault("List", list);
 		
+		// Help
 		List<String> help = new ArrayList<String>();
 		help.add("&b/chatwithstaff &f- View plugin information.");
 		help.add("&b/chatwithstaff help &f- View list of plugin's commands.");
@@ -65,6 +103,7 @@ public class MessageFile extends FileCreator implements YamlFile {
 		help.add("&b/staffchatlist &f- Shows all staff members viewing staff chat.");
 		get().addDefault("Help", help);
 		
+		// Save default values.
 		get().options().copyDefaults(true);
 		save();
 	}

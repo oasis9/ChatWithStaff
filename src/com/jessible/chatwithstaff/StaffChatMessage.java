@@ -30,25 +30,25 @@ import com.jessible.chatwithstaff.files.ConfigFile;
 /**
  * The handler for formatting staff chat messages.
  * 
- * @since v1.0.3.0
+ * @since 1.0.3.0
  */
 public class StaffChatMessage {
 	
-	private ChatWithStaff cws;
 	private String message, formattedMessage;
 	private CommandSender sender;
+	private ChatWithStaff cws;
 	
 	/**
 	 * Creates a new staff chat message.
 	 * 
-	 * @param message the staff chat message
-	 * @param sender the sender
+	 * @param message Staff chat message
+	 * @param sender Sender
 	 */
 	public StaffChatMessage(String message, CommandSender sender) {
-		this.cws = ChatWithStaff.getInstance();
 		this.message = message;
 		this.formattedMessage = null;
 		this.sender = sender;
+		this.cws = ChatWithStaff.getInstance();
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class StaffChatMessage {
 	 * Sends the staff chat message in the chat format to all staff members.
 	 */
 	public void sendToStaff() {
-		String perm = Permissions.STAFFCHAT_CMD.get();
+		String perm = Permissions.CMD_STAFFCHAT.get();
 		
 		format(FormatType.CHAT);
 		String msg = getFormattedMessage();
