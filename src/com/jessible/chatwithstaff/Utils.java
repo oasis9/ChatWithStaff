@@ -34,24 +34,15 @@ public class Utils {
 	 */
 	public static String buildString(String[] args) {
 		StringBuilder stringBuilder = new StringBuilder();
-		String lastWord = args[args.length - 1];
 		
 		// Loop through args, adding each element to stringBuilder.
 		for (String word : args) {
-			// If word is the last word in args.
-			if (word.equals(lastWord)) {
-				// Add word to stringBuilder.
-				stringBuilder.append(word);
-			} 
-			
-			// Word is not the last word in args.
-			else {
-				// Add word to stringBuilder, add additional space.
-				stringBuilder.append(word + " ");
-			}
+			stringBuilder.append(word).append(" ");
 		}
 		
-		return stringBuilder.toString();
+		String string = stringBuilder.toString();
+		
+		return string.trim();
 	}
 
 	/**
@@ -64,23 +55,15 @@ public class Utils {
 	 */
 	public static String buildString(String[] args, String chosenString) {
 		StringBuilder stringBuilder = new StringBuilder();
-		String lastWord = args[args.length - 1];
 		
 		// Loop through args, adding each element to stringBuilder.
 		for (String word : args) {
-			// If word is the last word in args.
-			if (word.equals(lastWord)) { // optimize this in the future. = ? :
-				// Add word to stringBuilder.
-				stringBuilder.append(word);
-			} 
-			// Word is not the last word in args.
-			else {
-				// Add word to stringBuilder, add chosenString.
-				stringBuilder.append(word + chosenString);
-			}
+			stringBuilder.append(word).append(chosenString);
 		}
 		
-		return stringBuilder.toString();
+		String string = stringBuilder.toString();
+		
+		return string.trim();
 	}
 	
 	/** 
