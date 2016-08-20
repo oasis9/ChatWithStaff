@@ -35,9 +35,9 @@ import com.jessible.chatwithstaff.files.MessageFile;
 public class ChatWithStaffCommand extends CommandHelper implements CommandExecutor {
 	
 	private Permissions permHelp, permReload;
+	private ChatWithStaff cws;
 	private String version;
 	private String[] info;
-	private ChatWithStaff cws;
 	
 	/**
 	 * Initializes ChatWithStaffCommand class.
@@ -46,12 +46,13 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 		super("[help | reload]");
 		this.permHelp = Permissions.CMD_CHATWITHSTAFF_HELP;
 		this.permReload = Permissions.CMD_CHATWITHSTAFF_RELOAD;
+		this.cws = ChatWithStaff.getInstance();
 		this.version = cws.getDescription().getVersion();
 		this.info = new String[] {
 				"ChatWithStaff " + cws.getMessages().color("&bv" + version),
 				"Developed by " + cws.getMessages().color("&b" + "Jessible"), 
 				"https://www.spigotmc.org/resources/25182/"};
-		this.cws = ChatWithStaff.getInstance();
+
 	}
 
 	/**
