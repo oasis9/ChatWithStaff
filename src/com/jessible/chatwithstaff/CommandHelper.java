@@ -23,40 +23,62 @@ import org.bukkit.command.CommandSender;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
- * The command helper for ChatWithStaff's commands.
+ * The command helper for the plugin's commands.
  * 
  * @since 1.0.3.0
  */
 public class CommandHelper {
 	
-	private String argUsage;
-	private ChatWithStaff cws;
+	private String name, argUsage;
+	private ChatWithStaff plugin;
 	
 	/**
-	 * Initializes CommandHelper class with the command's argument usage.
+	 * Initializes CommandHelper class with the command's name and argument
+	 * usage.
 	 * 
+	 * @param name Command's name
 	 * @param argUsage Command's argument usage
 	 */
-	public CommandHelper(String argUsage) {
+	public CommandHelper(String name, String argUsage) {
+		this.name = name;
 		this.argUsage = argUsage;
-		this.cws = ChatWithStaff.getInstance();
+		this.plugin = ChatWithStaff.getInstance();
+	}
+	
+	/**
+	 * Gets the command's name.
+	 * 
+	 * @return command's name
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Gets the command's argument usage.
+	 * 
+	 * @return command's argument usage
+	 */
+	public String getArgumentUsage() {
+		return argUsage;
 	}
 	
 	/**
 	 * Checks if a sender has permission. This will send the no
-	 * permission message from ChatWithStaff's messages.yml file if the sender
+	 * permission message from the plugin's messages.yml file if the sender
 	 * doesn't have permission.
 	 * 
-	 * @param permission The permission
-	 * @param sender The sender
-	 * @return true if the sender has permission, otherwise false
+	 * @param permission Permission
+	 * @param sender Sender
+	 * @return true if sender has permission, otherwise false
 	 */
-	public boolean hasPermission(Permissions permission, CommandSender sender) {
-		MessageFile msgs = cws.getMessages();
-		String perm = permission.get();
+	public boolean hasPermission(Permission permission, CommandSender sender) {
+		MessageFile msgs = plugin.getMessages();
 		
-		if (!sender.hasPermission(perm)) {
-			sender.sendMessage(msgs.getNoPermission(perm));
+		// If the sender doesn't have permission.
+		if (!sender.hasPermission(permission.getPermission())) {
+			// Send no permission message.
+			sender.sendMessage(msgs.getNoPermission(permission));
 			return false;
 		}
 		
@@ -66,13 +88,13 @@ public class CommandHelper {
 	/**
 	 * Sends a sender the invalid command message.
 	 * 
-	 * @param cmd The command
-	 * @param argsUsed The command's arguments used
-	 * @param sender The sender
+	 * @param cmd Command
+	 * @param argsUsed Command's arguments used
+	 * @param sender Sender
 	 */
 	public void invalidCommand(String cmd, String[] argsUsed,
 			CommandSender sender) {
-		MessageFile msgs = cws.getMessages();
+		MessageFile msgs = plugin.getMessages();
 		
 		String cmdName = "/" + cmd;
 		String cmdArgs = argsUsed.length >= 1 ? Utils.buildString(argsUsed) : "";
@@ -80,18 +102,6 @@ public class CommandHelper {
 		String cmdSuggest = cmdName + " " + argUsage;
 		
 		sender.sendMessage(msgs.getInvalidCommand(cmdUsed.trim(), cmdSuggest.trim()));
-	}
-
-	/**
-	 * Gets the command's usage.
-	 * 
-	 * @param cmd The command
-	 * @return command usage
-	 */
-	public String getCommandUsage(String cmd) {
-		String cmdUsage = "/" + cmd + " " + argUsage;
-		
-		return cmdUsage.trim();
 	}
 
 }

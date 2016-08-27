@@ -19,7 +19,7 @@
 package com.jessible.chatwithstaff;
 
 /**
- * ChatWithStaff's staff chat format types.
+ * The plugin's staff chat format types.
  * 
  * @since 1.0.2.0
  */

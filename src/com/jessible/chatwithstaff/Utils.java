@@ -19,7 +19,7 @@
 package com.jessible.chatwithstaff;
 
 /**
- * ChatWithStaff's frequently used methods.
+ * The plugin's frequently used methods.
  * 
  * @since 1.0.0.0
  */
@@ -29,8 +29,8 @@ public class Utils {
 	 * Takes a string array and builds it into one string, puts a space
 	 * in between elements.
 	 * 
-	 * @param args string array
-	 * @return newly built string
+	 * @param args String array
+	 * @return string array as a string
 	 */
 	public static String buildString(String[] args) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -40,18 +40,16 @@ public class Utils {
 			stringBuilder.append(word).append(" ");
 		}
 		
-		String string = stringBuilder.toString();
-		
-		return string.trim();
+		return stringBuilder.toString().trim();
 	}
 
 	/**
 	 * Takes a string array and builds it into one string, puts a chosen string
 	 * in between elements.
 	 * 
-	 * @param args string array
-	 * @param chosenString chosen string
-	 * @return newly built string
+	 * @param args String array
+	 * @param chosenString Chosen string
+	 * @return string array as a string
 	 */
 	public static String buildString(String[] args, String chosenString) {
 		StringBuilder stringBuilder = new StringBuilder();
@@ -62,14 +60,18 @@ public class Utils {
 		}
 		
 		String string = stringBuilder.toString();
+		int sLength = string.length();
+		int csLength = chosenString.length();
 		
-		return string.trim();
+		string = string.substring(0, sLength - csLength);
+		
+		return string;
 	}
 	
 	/** 
 	 * Checks if a string is a color code.
 	 * 
-	 * @param colorCode color code
+	 * @param colorCode Color code
 	 * @return true if the string is a color code, otherwise false
 	 */
 	public static boolean isColorCode(String colorCode) {
@@ -121,4 +123,5 @@ public class Utils {
 		}
 		return false;
 	}
+	
 }

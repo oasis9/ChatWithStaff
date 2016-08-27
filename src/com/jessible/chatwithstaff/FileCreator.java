@@ -25,31 +25,51 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
- * The file creation system for all of ChatWithStaff's files.
+ * The file creation system for all of the plugin's files.
  * 
  * @since 1.0.0.0
  */
 public class FileCreator {
 	
-	private String sep; // File separator.
-	private File dir, file; // Directory folder and the newly created file.
-	private YamlConfiguration yamlFile; // Yaml type file for the newly created file.
+	private File ntsDir, sndDir, file;
+	private YamlConfiguration yamlFile;
+	private String pluginName;
 	
 	/**
-	 * Creates a new .yml file in the ChatWithStaff folder.
+	 * Initializes FileCreator class.
+	 */
+	private FileCreator() {
+		this.pluginName = ChatWithStaff.getInstance().getDetails().getName();
+	}
+	
+	/**
+	 * Creates a new .yml file in the plugin's folder.
 	 * 
 	 * @param fileName name of file, excluding the ".yml" extension
 	 */
 	public FileCreator(String fileName) {
-		this.sep = File.separator;
-		this.dir = new File("plugins" + sep + "ChatWithStaff");
-		this.file = new File(dir, fileName + ".yml");
+		this();
+		this.ntsDir = new File("plugins" + File.separator + pluginName);
+		this.file = new File(ntsDir, fileName + ".yml");
 	}
 	
 	/**
+	 * Creates a new .yml file in a second directory of the plugin's folder.
+	 * 
+	 * @param fileName name of file, excluding the ".yml" extension
+	 * @param dirName name of directory
+	 */
+	public FileCreator(String fileName, String dirName) {
+		this();
+		this.ntsDir = new File("plugins" + File.separator + pluginName);
+		this.sndDir = new File(ntsDir, dirName);
+		this.file = new File(sndDir, fileName + ".yml");
+	}
+
+	/**
 	 * Gets the file and returns it as a YamlConfiguration object.
 	 * 
-	 * @return the file as a YamlConfiguration object
+	 * @return file as a YamlConfiguration object
 	 */
 	public YamlConfiguration get() {
 		// If the yamlFile isn't yet loaded.
@@ -80,15 +100,22 @@ public class FileCreator {
 	}
 	
 	/**
-	 * Reloads the file. If the ChatWithStaff folder is not found, it will create
+	 * Reloads the file. If the plugin's folder is not found, it will create
 	 * a new one. If the file itself is not found, it will create a new one
 	 * as well. Afterwards, it will reload the file.
 	 */
 	public void reload() {
-		// If ChatWithStaff's main directory isn't found.
-		if (!dir.exists()) {
-			// Create ChatWithStaff's main directory.
-			dir.mkdir();
+		// If the plugin's main directory isn't found.
+		if (!ntsDir.exists()) {
+			// Create the plugin's main directory.
+			ntsDir.mkdir();
+		}
+		
+		// If the constructor allowing a second directory is used and does not
+		// exist.
+		if (sndDir != null && !sndDir.exists()) {
+			// Create second directory.
+			sndDir.mkdir();
 		}
 		
 		// If file isn't found.
@@ -126,7 +153,7 @@ public class FileCreator {
 	 * Colors the string by translating all color codes starting with "&".
 	 * 
 	 * @param stringToColor string to color
-	 * @return the string colored
+	 * @return string colored
 	 */
 	public String color(String stringToColor) {
 		return ChatColor.translateAlternateColorCodes('&', stringToColor);

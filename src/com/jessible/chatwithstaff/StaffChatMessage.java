@@ -36,34 +36,34 @@ public class StaffChatMessage {
 	
 	private String message, formattedMessage;
 	private CommandSender sender;
-	private ChatWithStaff cws;
+	private ChatWithStaff plugin;
 	
 	/**
 	 * Creates a new staff chat message.
 	 * 
-	 * @param message Staff chat message
+	 * @param message Message
 	 * @param sender Sender
 	 */
 	public StaffChatMessage(String message, CommandSender sender) {
 		this.message = message;
 		this.formattedMessage = null;
 		this.sender = sender;
-		this.cws = ChatWithStaff.getInstance();
+		this.plugin = ChatWithStaff.getInstance();
 	}
 
 	/**
-	 * Gets the staff chat message.
+	 * Gets the message.
 	 * 
-	 * @return the staff chat message
+	 * @return message
 	 */
 	public String getMessage() {
 		return message;
 	}
 	
 	/**
-	 * Sets the staff chat message.
+	 * Sets the message.
 	 * 
-	 * @param message The staff chat message
+	 * @param message Message
 	 */
 	public void setMessage(String message) {
 		this.message = message;
@@ -82,7 +82,7 @@ public class StaffChatMessage {
 	/**
 	 * Sets the formatted message.
 	 * 
-	 * @param formattedMessage The new formatted message
+	 * @param formattedMessage Formatted message
 	 */
 	public void setFormattedMessage(String formattedMessage) {
 		this.formattedMessage = formattedMessage;
@@ -91,7 +91,7 @@ public class StaffChatMessage {
 	/**
 	 * Gets the sender.
 	 * 
-	 * @return sender The sender
+	 * @return sender
 	 */
 	public CommandSender getSender() {
 		return sender;
@@ -100,19 +100,19 @@ public class StaffChatMessage {
 	/**
 	 * Sets the sender.
 	 * 
-	 * @param sender The new sender
+	 * @param sender Sender
 	 */
 	public void setSender(CommandSender sender) {
 		this.sender = sender;
 	}
 	
 	/**
-	 * Formats a staff chat message.
+	 * Formats the message.
 	 * 
 	 * @param type Format type
 	 */
 	public void format(FormatType type) {
-		ConfigFile config = cws.getConfiguration();
+		ConfigFile config = plugin.getConfiguration();
 		String format;
 		
 		// If the format is chat.
@@ -133,7 +133,7 @@ public class StaffChatMessage {
 			format = config.getFormatForFile();
 		}
 		
-		String prefix = cws.getMessages().getPrefix().trim();
+		String prefix = plugin.getMessages().getPrefix().trim();
 		
 		// Format message.
 		format = format.replace("{prefix}", prefix);
@@ -163,13 +163,15 @@ public class StaffChatMessage {
 	}
 	
 	/**
-	 * Sends the staff chat message in the chat format to all staff members.
+	 * Sends the message in the chat format to all staff members.
 	 */
 	public void sendToStaff() {
-		String perm = Permissions.CMD_STAFFCHAT.get();
+		String perm = Permission.CMD_STAFFCHAT.getPermission();
 		
-		format(FormatType.CHAT);
-		String msg = getFormattedMessage();
+		StaffChatMessage scm = new StaffChatMessage(getMessage(), getSender());
+		scm.format(FormatType.CHAT);
+		
+		String msg = scm.getFormattedMessage();
 		
 		for (Player staff : Bukkit.getOnlinePlayers()) {
 			if (staff.hasPermission(perm)) {

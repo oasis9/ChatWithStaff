@@ -18,7 +18,9 @@
 
 package com.jessible.chatwithstaff.files;
 
+import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FileCreator;
+import com.jessible.chatwithstaff.PluginDetails;
 
 /**
  * The handler for the config.yml file.
@@ -27,38 +29,39 @@ import com.jessible.chatwithstaff.FileCreator;
  */
 public class ConfigFile extends FileCreator implements YamlFile {
 	
+	private PluginDetails details;
+	
 	/**
 	 * Initializes ConfigFile class.
 	 */
 	public ConfigFile() {
 		super("config");
+		this.details = ChatWithStaff.getInstance().getDetails();
 	}
 	
 	@Override
 	public void addDefaultValues() {
+		String highlightColor = details.getHighlightColor();
+		
 		// Format_For_Chat
-		get().addDefault(
-				"Format_For_Chat",
-				"{prefix} {display_name}: &b{message}");
+		get().addDefault("Format_For_Chat",
+				"{prefix} {display_name}: "
+						+ highlightColor + "{message}");
 		
 		// Format_For_Console
-		get().addDefault(
-				"Format_For_Console",
+		get().addDefault("Format_For_Console",
 				"{player_name}: {message}");
 		
 		// Format_For_File
-		get().addDefault(
-				"Format_For_File",
+		get().addDefault("Format_For_File",
 				"{date_and_time} {player_name}: {message}");
 		
 		// Log_To_Console
-		get().addDefault(
-				"Log_To_Console",
+		get().addDefault("Log_To_Console",
 				true);
 		
 		// Log_To_File
-		get().addDefault(
-				"Log_To_File",
+		get().addDefault("Log_To_File",
 				true);
 		
 		// Save default values.
@@ -69,7 +72,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	/**
 	 * Gets the format for chat.
 	 *
-	 * @return the format for chat
+	 * @return format for chat
 	 */
 	public String getFormatForChat() {
 		return get().getString("Format_For_Chat");
@@ -78,7 +81,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	/**
 	 * Gets the format for console.
 	 *
-	 * @return the format for console
+	 * @return format for console
 	 */
 	public String getFormatForConsole() {
 		return get().getString("Format_For_Console");
@@ -87,7 +90,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	/**
 	 * Gets the format for file.
 	 *
-	 * @return the format for file
+	 * @return format for file
 	 */
 	public String getFormatForFile() {
 		return get().getString("Format_For_File");
@@ -96,7 +99,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	/**
 	 * Checks whether or not log to console is set to true.
 	 * 
-	 * @return true if true, false if false
+	 * @return true if true, otherwise false
 	 */
 	public boolean canLogToConsole() {
 		return get().getBoolean("Log_To_Console");
@@ -106,7 +109,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	/**
 	 * Checks whether or not log to file is set to true.
 	 * 
-	 * @return true if true, false if false
+	 * @return true if true, otherwise false
 	 */
 	public boolean canLogToFile() {
 		return get().getBoolean("Log_To_File");
