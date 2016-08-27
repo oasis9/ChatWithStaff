@@ -29,111 +29,137 @@ import com.jessible.chatwithstaff.files.StaffChatModeFile;
 import com.jessible.chatwithstaff.listeners.StaffChatListener;
 
 /**
- * The main class for ChatWithStaff.
+ * The main class for the plugin.
  * 
  * @since 1.0.0.0
  */
 public class ChatWithStaff extends JavaPlugin {
 	
-	private static ChatWithStaff cws;
-	private ConfigFile configFile;
-	private MessageFile msgFile;
-	private StaffChatModeFile scmFile;
+	private static ChatWithStaff plugin;
+	private PluginDetails details;
+	private ConfigFile config;
+	private MessageFile msgs;
+	private StaffChatModeFile scm;
 	private Logger log;
 	
 	/**
-	 * Actions to be performed upon enabling ChatWithStaff.
+	 * Actions to be performed upon enabling the plugin.
 	 */
 	@Override
 	public void onEnable() {
-		// Setup instance.
-		ChatWithStaff.cws = this;
+		// Setup plugin instance.
+		plugin = this;
+		
+		// Setup plugin details.
+		details = new PluginDetails();
 		
 		// Setup config.yml file.
-		configFile = new ConfigFile();
-		configFile.addDefaultValues();
+		config = new ConfigFile();
+		config.addDefaultValues();
 		
 		// Setup messages.yml file.
-		msgFile = new MessageFile();
-		msgFile.addDefaultValues();
+		msgs = new MessageFile();
+		msgs.addDefaultValues();
 		
 		// Load data from staff_chat_mode.yml.
-		scmFile = new StaffChatModeFile(); // does not have any default values, nor needs to be created upon enabling
+		scm = new StaffChatModeFile(); // does not have any default values, nor needs to be created upon enabling
 		new StaffChatMode().loadFromFile();
 		
 		// Setup logger.
 		log = new Logger();
-		log.getLog().reload();
+		log.getStaffChatLog().reload();
 		
 		// Register commands.
-		getCommand("chatwithstaff").setExecutor(new ChatWithStaffCommand());
-		getCommand("staffchat").setExecutor(new StaffChatCommand());
-		getCommand("staffchatlist").setExecutor(new StaffChatListCommand());
+		
+		// Command > /chatwithstaff
+		ChatWithStaffCommand cwsCmd = new ChatWithStaffCommand();
+		getCommand(cwsCmd.getName()).setExecutor(cwsCmd);
+		
+		// Command > /staffchat
+		StaffChatCommand scCmd = new StaffChatCommand();
+		getCommand(scCmd.getName()).setExecutor(scCmd);
+		
+		// Command > /staffchatlist
+		StaffChatListCommand sclCmd = new StaffChatListCommand();
+		getCommand(sclCmd.getName()).setExecutor(sclCmd);
 		
 		// Register listeners.
 		getServer().getPluginManager().registerEvents(new StaffChatListener(), this);
 	}
 	
 	/**
-	 * Actions to be performed upon disabling ChatWithStaff.
+	 * Actions to be performed upon disabling the plugin.
 	 */
 	@Override
 	public void onDisable() {
 		// Save staff names in staff chat mode to staff_chat_mode.yml.
 		new StaffChatMode().saveToFile();
 		
-		// Nullify instance.
-		cws = null;
+		// Nullify plugin instance.
+		plugin = null;
 		
-		// Disable files.
-		configFile = null;
-		msgFile = null;
-		scmFile = null;
+		// Nullify plugin details.
+		details = null;
+		
+		// Nullify file instances.
+		config = null;
+		msgs = null;
+		scm = null;
+		log = null;
 	}
 	
 	/**
-	 * Gets the ConfigFile class.
+	 * Gets the instance of the plugin.
 	 * 
-	 * @return ConfigFile class
+	 * @return instance of the plugin
+	 */
+	public static ChatWithStaff getInstance() {
+		return plugin;
+	}
+	
+	/**
+	 * Gets the instance of PluginDetails.
+	 * 
+	 * @return instance of PluginDetails
+	 */
+	public PluginDetails getDetails() {
+		return details;
+	}
+	
+	/**
+	 * Gets the instance of ConfigFile.
+	 * 
+	 * @return instance of ConfigFile
 	 */
 	public ConfigFile getConfiguration() {
-		return configFile;
+		return config;
 	}
 	
 	/**
-	 * Gets the MessageFile class.
+	 * Gets the instance of MessageFile.
 	 * 
-	 * @return MessageFile class
+	 * @return instance of MessageFile
 	 */
 	public MessageFile getMessages() {
-		return msgFile;
+		return msgs;
 	}
 	
 	/**
-	 * Gets the StaffChatModeFile class.
+	 * Gets the instance of StaffChatModeFile.
 	 * 
-	 * @return StaffChatModeFile class
+	 * @return instance of StaffChatModeFile
 	 */
 	public StaffChatModeFile getStaffChatMode() {
-		return scmFile;
+		return scm;
 	}
 	
 	/**
-	 * Gets the Logger class.
+	 * Gets the instance of Logger.
 	 * 
-	 * @return Logger class
+	 * @return instance of Logger
 	 */
 	public Logger getCWSLogger() {
 		return log;
-	}
-	
-	/**
-	 * Gets the instance of ChatWithStaff.
-	 * 
-	 * @return ChatWithStaff instance
-	 */
-	public static ChatWithStaff getInstance() {
-		return cws;
 	}
 	
 }

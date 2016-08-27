@@ -27,7 +27,7 @@ import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.CommandHelper;
 import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
-import com.jessible.chatwithstaff.Permissions;
+import com.jessible.chatwithstaff.Permission;
 import com.jessible.chatwithstaff.StaffChatMessage;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.Utils;
@@ -41,15 +41,15 @@ import com.jessible.chatwithstaff.files.MessageFile;
  */
 public class StaffChatCommand extends CommandHelper implements CommandExecutor {
 	
-	private Permissions perm;
+	private Permission perm;
 	private ChatWithStaff cws;
 	
 	/**
 	 * Initializes StaffChatCommand class.
 	 */
 	public StaffChatCommand() {
-		super("[message]");
-		this.perm = Permissions.CMD_STAFFCHAT;
+		super("staffchat", "[message]");
+		this.perm = Permission.CMD_STAFFCHAT;
 		this.cws = ChatWithStaff.getInstance();
 	}
 	
@@ -84,7 +84,7 @@ public class StaffChatCommand extends CommandHelper implements CommandExecutor {
 		
 		// If the sender doesn't have permission.
 		if (!hasPermission(perm, sender)) {
-			// hasPermission(Permissions, CommandSender) sends the no
+			// hasPermission(Permission, CommandSender) sends the no
 			// permission message.
 			return true;
 		}
@@ -104,7 +104,8 @@ public class StaffChatCommand extends CommandHelper implements CommandExecutor {
 			 */
 			if (!(sender instanceof Player)) {
 				String cmdName = "/" + cmd;
-				sender.sendMessage(msgs.getNoConsole(cmdName, getCommandUsage(cmd)));
+				sender.sendMessage(msgs.getNoConsole(cmdName,
+						cmdName + " <message>"));
 				return true;
 			}
 			// The sender is a player.
@@ -133,20 +134,20 @@ public class StaffChatCommand extends CommandHelper implements CommandExecutor {
 		ConfigFile config = cws.getConfiguration();
 		Logger logger = cws.getCWSLogger();
 		
-		// Send <msg> to all staff members.
+		// Send message to all staff members.
 		staffMsg.sendToStaff();
 		
-		// If the staff message can be logged to console.
+		// If the message can be logged to console.
 		if (config.canLogToConsole()) {
-			// Log <msg> to console.
+			// Log message to console.
 			staffMsg.format(FormatType.CONSOLE);
 			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
-		// If the staff message can be logged to the log file.
+		// If the message can be logged to the log file.
 		if (config.canLogToFile()) {
-			// Log <msg> to staff chat log file.
+			// Log message to staff chat log file.
 			staffMsg.format(FormatType.FILE);
 			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);

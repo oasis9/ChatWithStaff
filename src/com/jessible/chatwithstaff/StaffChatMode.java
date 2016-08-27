@@ -42,18 +42,16 @@ public class StaffChatMode {
 	
 	/**
 	 * Initializes StaffChatMode class.
-	 *  
-	 * @param cws Instance of ChatWithStaff class (main class)
 	 */
 	public StaffChatMode() {
 		this.scmFile = ChatWithStaff.getInstance().getStaffChatMode();
-		this.staffChatPerm = Permissions.CMD_STAFFCHAT.get();
+		this.staffChatPerm = Permission.CMD_STAFFCHAT.getPermission();
 	}
 	
 	/**
-	 * Adds a player to staff chat mode.
+	 * Adds a sender to staff chat mode.
 	 * 
-	 * @param sender player's name
+	 * @param sender Sender
 	 */
 	public void add(CommandSender sender) {
 		playersInStaffChat.add(sender.getName());
@@ -62,25 +60,25 @@ public class StaffChatMode {
 	/**
 	 * Adds a player to staff chat mode.
 	 * 
-	 * @param player player's name
+	 * @param player Player
 	 */
 	public void add(Player player) {
 		playersInStaffChat.add(player.getName());
 	}
 	
 	/**
-	 * Adds a player to staff chat mode.
+	 * Adds a name to staff chat mode.
 	 * 
-	 * @param sender player's name
+	 * @param name Name
 	 */
 	public void add(String name) {
 		playersInStaffChat.add(name);
 	}
 	
 	/**
-	 * Removes a player from staff chat mode.
+	 * Removes a sender from staff chat mode.
 	 * 
-	 * @param sender player's name
+	 * @param sender Sender
 	 */
 	public void remove(CommandSender sender) {
 		playersInStaffChat.remove(sender.getName());
@@ -89,35 +87,35 @@ public class StaffChatMode {
 	/**
 	 * Removes a player from staff chat mode.
 	 * 
-	 * @param player player's name
+	 * @param player Player
 	 */
 	public void remove(Player player) {
 		playersInStaffChat.remove(player.getName());
 	}
 	
 	/**
-	 * Removes a player from staff chat mode.
+	 * Removes a name from staff chat mode.
 	 * 
-	 * @param sender player's name
+	 * @param name Name
 	 */
 	public void remove(String name) {
 		playersInStaffChat.remove(name);
 	}
 	
 	/**
-	 * Checks if the player is in staff chat mode.
+	 * Checks if a sender is in staff chat mode.
 	 * 
-	 * @param sender the player
-	 * @return true if the player is in staff chat mode, otherwise false
+	 * @param sender Sender
+	 * @return true if the sender is in staff chat mode, otherwise false
 	 */
 	public boolean isInStaffChatMode(CommandSender sender) {
 		return playersInStaffChat.contains(sender.getName());
 	}
 
 	/**
-	 * Checks if the player is in staff chat mode.
+	 * Checks if a player is in staff chat mode.
 	 * 
-	 * @param player the player
+	 * @param player Player
 	 * @return true if the player is in staff chat mode, otherwise false
 	 */
 	public boolean isInStaffChatMode(Player player) {
@@ -125,10 +123,10 @@ public class StaffChatMode {
 	}
 	
 	/**
-	 * Checks if the player is in staff chat mode.
+	 * Checks if a name is in staff chat mode.
 	 * 
-	 * @param name the player
-	 * @return true if the player is in staff chat mode, otherwise false
+	 * @param name Name
+	 * @return true if the name is in staff chat mode, otherwise false
 	 */
 	public boolean isInStaffChatMode(String name) {
 		return playersInStaffChat.contains(name);

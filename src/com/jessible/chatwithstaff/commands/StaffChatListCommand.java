@@ -24,7 +24,7 @@ import org.bukkit.command.CommandSender;
 
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.CommandHelper;
-import com.jessible.chatwithstaff.Permissions;
+import com.jessible.chatwithstaff.Permission;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.Utils;
 import com.jessible.chatwithstaff.files.MessageFile;
@@ -36,15 +36,15 @@ import com.jessible.chatwithstaff.files.MessageFile;
  */
 public class StaffChatListCommand extends CommandHelper implements CommandExecutor {
 	
-	private Permissions perm;
+	private Permission perm;
 	private ChatWithStaff cws;
 	
 	/**
 	 * Initializes StaffChatListCommand class.
 	 */
 	public StaffChatListCommand() {
-		super("");
-		this.perm = Permissions.CMD_STAFFCHATLIST;
+		super("staffchatlist", "");
+		this.perm = Permission.CMD_STAFFCHATLIST;
 		this.cws = ChatWithStaff.getInstance();
 	}
 
@@ -71,7 +71,7 @@ public class StaffChatListCommand extends CommandHelper implements CommandExecut
 		
 		// If the sender doesn't have permission.
 		if (!hasPermission(perm, sender)) {
-			// hasPermission(Permissions, CommandSender) sends the no
+			// hasPermission(Permission, CommandSender) sends the no
 			// permission message.
 			return true;
 		}
@@ -86,18 +86,19 @@ public class StaffChatListCommand extends CommandHelper implements CommandExecut
 		
 		StaffChatMode scm = new StaffChatMode();
 		int staffAmount = scm.getAmount();
-		String andOrIs = staffAmount == 1 ? msgs.getVerb1() : msgs.getVerb2();
+		String isOrAnd = staffAmount == 1 ? msgs.getWordIs() : msgs.getWordAre();
 		String sOrNoS = staffAmount == 1 ? "" : "s"; // s or no s
 		String prefix = msgs.getPrefix();
 		
 		// Format list message.
 		for (String listMsg : msgs.getList()) {
-			listMsg = listMsg.replace("{verb}", andOrIs);
-			listMsg = listMsg.replace("{conjunction|verb}", andOrIs); // support for v1.0.1.0
-			listMsg = listMsg.replace("{amount}", String.valueOf(staffAmount));
-			listMsg = listMsg.replace("{s}", sOrNoS);
+			listMsg = listMsg.replace("{word}", isOrAnd)
+					.replace("{verb}", isOrAnd) // support for v1.0.1.1
+					.replace("{conjunction|verb}", isOrAnd) // support for v1.0.1.0
+					.replace("{amount}", String.valueOf(staffAmount))
+					.replace("{s}", sOrNoS);
 			
-			// Get all online staff names.
+			// Get all online staff names. (as of v1.0.3.0, this needs to be reworked)
 			String staff = "None";
 			boolean onStaffLine = listMsg.contains("{staff}");
 			if (onStaffLine && staffAmount > 0) {

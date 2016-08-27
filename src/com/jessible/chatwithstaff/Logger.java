@@ -24,50 +24,50 @@ import com.jessible.chatwithstaff.files.ConfigFile;
 import com.jessible.chatwithstaff.files.StaffChatLogFile;
 
 /**
- * ChatWithStaff's log system.
+ * Log system for the plugin.
  * 
  * @since 1.0.2.0
  */
 public class Logger {
 	
-	private ChatWithStaff cws;
 	private StaffChatLogFile staffChatLogFile;
+	private ChatWithStaff plugin;
 	
 	/**
 	 * Initializes StaffChatLogFile class.
 	 */
 	public Logger() {
-		this.cws = ChatWithStaff.getInstance();
 		this.staffChatLogFile = new StaffChatLogFile();
+		this.plugin = ChatWithStaff.getInstance();
 	}
 	
 	/**
 	 * Logs an info message to console.
 	 * 
-	 * @param message the message
+	 * @param message Message
 	 */
 	public void logToConsole(String message) {
-		cws.getLogger().log(Level.INFO, message);
+		plugin.getLogger().log(Level.INFO, message);
 	}
 	
 	/**
 	 * Logs a message to console. (default level: info)
 	 * 
-	 * @param message the message
-	 * @param level the message level (default level: info)
+	 * @param message Message
+	 * @param level Message level (default level: info)
 	 */
 	public void logToConsole(String message, Level level) {
 		if (level == null) {
 			logToConsole(message);
 		}
 		
-		cws.getLogger().log(level, message);
+		plugin.getLogger().log(level, message);
 	}
 	
 	/**
 	 * Logs a message to the staff chat log file.
 	 * 
-	 * @param message the message
+	 * @param message Message
 	 */
 	public void logToFile(String message) {
 		staffChatLogFile.log(message);
@@ -77,11 +77,11 @@ public class Logger {
 	 * Logs an info message to console and the staff chat log file.
 	 * <p>
 	 * In order for a message to be logged to the console,
-	 * the option to do so must be enabled in the config file;
+	 * the option to do so must be enabled in the plugin's config file;
 	 * same goes for logging a message to the staff chat log file.
 	 */
 	public void log(String message) {
-		ConfigFile config = cws.getConfiguration();
+		ConfigFile config = plugin.getConfiguration();
 		
 		if (config.canLogToConsole()) {
 			logToConsole(message);
@@ -93,11 +93,11 @@ public class Logger {
 	}
 	
 	/**
-	 * Gets the StaffChatLogFile class.
+	 * Gets the instance of StaffChatLogFile.
 	 * 
-	 * @return StaffChatLogFile class
+	 * @return instance of StaffChatLogFile
 	 */
-	public StaffChatLogFile getLog() {
+	public StaffChatLogFile getStaffChatLog() {
 		return staffChatLogFile;
 	}
 	

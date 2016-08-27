@@ -31,19 +31,19 @@ import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.files.ConfigFile;
 
 /**
- * The handler for when a player talks while their staff chat mode is on.
+ * The handler for when a player talks while in staff chat mode.
  * 
  * @since 1.0.0.0
  */
 public class StaffChatListener implements Listener {
 	
-	private ChatWithStaff cws;
+	private ChatWithStaff plugin;
 	
 	/**
 	 * Initializes StaffChatListener class.
 	 */
 	public StaffChatListener() {
-		this.cws = ChatWithStaff.getInstance();
+		this.plugin = ChatWithStaff.getInstance();
 	}
 
 	/**
@@ -65,24 +65,23 @@ public class StaffChatListener implements Listener {
 		e.setCancelled(true);
 		
 		StaffChatMessage staffMsg = new StaffChatMessage(msg, player);
-		ConfigFile config = cws.getConfiguration();
-		Logger logger = cws.getCWSLogger();
+		ConfigFile config = plugin.getConfiguration();
+		Logger logger = plugin.getCWSLogger();
 		
 		// Send message to all staff members.
 		staffMsg.sendToStaff();
 		
-		
-		// If the staff message can be logged to console.
+		// If the message can be logged to console.
 		if (config.canLogToConsole()) {
-			// Log <msg> to console.
+			// Log message to console.
 			staffMsg.format(FormatType.CONSOLE);
 			String msgToConsole = staffMsg.getFormattedMessage();
 			logger.logToConsole(msgToConsole);
 		}
 		
-		// If the staff message can be logged to the log file.
+		// If the message can be logged to the log file.
 		if (config.canLogToFile()) {
-			// Log <msg> to staff chat log file.
+			// Log message to staff chat log file.
 			staffMsg.format(FormatType.FILE);
 			String msgToFile = staffMsg.getFormattedMessage();
 			logger.logToFile(msgToFile);

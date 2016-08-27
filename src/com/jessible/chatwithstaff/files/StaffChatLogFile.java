@@ -23,6 +23,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.jessible.chatwithstaff.ChatWithStaff;
+
 /**
  * The handler for the staff_chat_log.txt file.
  * 
@@ -30,13 +32,15 @@ import java.io.IOException;
  */
 public class StaffChatLogFile {
 	
+	private String pluginName;
 	private File dir, log;
 	
 	/**
 	 * Initializes StaffChatLogFile class.
 	 */
 	public StaffChatLogFile() {
-		this.dir = new File("plugins" + File.separator + "ChatWithStaff");
+		this.pluginName = ChatWithStaff.getInstance().getDetails().getName();
+		this.dir = new File("plugins" + File.separator + pluginName);
 		this.log = new File(dir, "staff_chat_log.txt");
 	}
 
@@ -54,7 +58,7 @@ public class StaffChatLogFile {
 	}
 	
 	/**
-	 * Reloads the staff chat log file. If the ChatWithStaff folder is not found, it will create
+	 * Reloads the staff chat log file. If the the plugin's folder is not found, it will create
 	 * a new one. If the staff chat log file itself is not found, it will create a new one
 	 * as well.
 	 */
@@ -75,7 +79,7 @@ public class StaffChatLogFile {
 	/**
 	 * Logs a message to the staff chat log file.
 	 * 
-	 * @param message the message
+	 * @param message Message
 	 */
 	public void log(String message) {
 		try {

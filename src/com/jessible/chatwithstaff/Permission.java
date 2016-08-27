@@ -19,11 +19,11 @@
 package com.jessible.chatwithstaff;
 
 /**
- * The permissions for ChatWithStaff.
+ * The permissions for the plugin's commands and other command-related actions.
  * 
  * @since 1.0.0.0
  */
-public enum Permissions {
+public enum Permission {
 	
 	/**
 	 * Permission for "/chatwithstaff help."
@@ -45,15 +45,16 @@ public enum Permissions {
 	 */
 	CMD_STAFFCHATLIST("staffchatlist");
 	
-	private String permission;
+	private String permission, pluginName;
 	
 	/**
-	 * Initializes Permissions enum.
+	 * Initializes Permission enum.
 	 * 
-	 * @param permission the permission
+	 * @param permission Permission.
 	 */
-	private Permissions(String permission) {
-		this.permission = "chatwithstaff." + permission;
+	private Permission(String permission) {
+		this.pluginName = ChatWithStaff.getInstance().getDescription().getName();
+		this.permission = pluginName.toLowerCase() + "." + permission;
 	}
 	
 	/**
@@ -61,7 +62,7 @@ public enum Permissions {
 	 * 
 	 * @return permission
 	 */
-	public String get() {
+	public String getPermission() {
 		return permission;
 	}
 

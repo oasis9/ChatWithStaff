@@ -24,7 +24,7 @@ import org.bukkit.command.CommandSender;
 
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.CommandHelper;
-import com.jessible.chatwithstaff.Permissions;
+import com.jessible.chatwithstaff.Permission;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
@@ -34,7 +34,7 @@ import com.jessible.chatwithstaff.files.MessageFile;
  */
 public class ChatWithStaffCommand extends CommandHelper implements CommandExecutor {
 	
-	private Permissions permHelp, permReload;
+	private Permission permHelp, permReload;
 	private ChatWithStaff cws;
 	private String version;
 	private String[] info;
@@ -43,9 +43,9 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 	 * Initializes ChatWithStaffCommand class.
 	 */
 	public ChatWithStaffCommand() {
-		super("[help | reload]");
-		this.permHelp = Permissions.CMD_CHATWITHSTAFF_HELP;
-		this.permReload = Permissions.CMD_CHATWITHSTAFF_RELOAD;
+		super("chatwithstaff", "[help | reload]");
+		this.permHelp = Permission.CMD_CHATWITHSTAFF_HELP;
+		this.permReload = Permission.CMD_CHATWITHSTAFF_RELOAD;
 		this.cws = ChatWithStaff.getInstance();
 		this.version = cws.getDescription().getVersion();
 		this.info = new String[] {
@@ -112,7 +112,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 				
 				// If the sender doesn't have permission.
 				if (!hasPermission(permHelp, sender)) {
-					// hasPermission(Permissions, CommandSender) sends the no
+					// hasPermission(Permission, CommandSender) sends the no
 					// permission message.
 					return true;
 				}
@@ -132,7 +132,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 				
 				// If the sender doesn't have permission.
 				if (!hasPermission(permReload, sender)) {
-					// hasPermission(Permissions, CommandSender) sends the no
+					// hasPermission(Permission, CommandSender) sends the no
 					// permission message.
 					return true;
 				}

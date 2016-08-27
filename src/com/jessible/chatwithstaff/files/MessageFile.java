@@ -21,7 +21,10 @@ package com.jessible.chatwithstaff.files;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FileCreator;
+import com.jessible.chatwithstaff.Permission;
+import com.jessible.chatwithstaff.PluginDetails;
 import com.jessible.chatwithstaff.Utils;
 
 /**
@@ -31,76 +34,119 @@ import com.jessible.chatwithstaff.Utils;
  */
 public class MessageFile extends FileCreator implements YamlFile {
 	
+	private PluginDetails details;
+	
 	/**
 	 * Initializes MessageFile class.
 	 */
 	public MessageFile() {
 		super("messages");
+		this.details = ChatWithStaff.getInstance().getDetails();
 	}
-
+	
 	@Override
 	public void addDefaultValues() {
+		String pluginName = details.getName();
+		
+		String prefixColor = details.getPrefixColor();
+		String highlightColor = details.getHighlightColor();
+		String textColor = details.getTextColor();
+		
+		String highlightErrorColor = details.getHighlightErrorColor();
+		String textErrorColor = details.getTextErrorColor();
+		
 		// Prefix
-		get().addDefault(
-				"Prefix", 
-				"&8[&aChatWithStaff&8]");
+		get().addDefault("Prefix",
+				"&8[" + prefixColor + pluginName + "&8]");
 		
 		// No_Permission
-		get().addDefault(
-				"No_Permission",
-				"&4You &cdo not have the &4{permission} &cpermission.");
+		get().addDefault("No_Permission",
+				highlightErrorColor + "You "
+						+ textErrorColor + "do not have the "
+						+ highlightErrorColor + "{permission} " 
+						+ textErrorColor + "permission.");
 		
-		// No_Console
-		get().addDefault(
-				"No_Console",
+		// No_Console (Console doesn't get formatting; besides the prefix)
+		get().addDefault("No_Console",
 				"You cannot use {used_command} from the console. "
-				+ "Try {suggested_command}.");
+						+ "Try {suggested_command}.");
 		
 		// Invalid_Command
-		get().addDefault(
-				"Invalid_Command",
-				"&4{used_command} &cis an invalid command. "
-				+ "Did you mean &4{suggested_command}&c?");
+		get().addDefault("Invalid_Command",
+				highlightErrorColor + "{used_command} "
+						+ textErrorColor + "is an invalid command. "
+						+ "Did you mean "
+						+ highlightErrorColor + "{suggested_command}?");
 		
 		// Reload
-		get().addDefault(
-				"Reload",
-				"&fFiles &bconfig.yml &fand &bmessages.yml &fhas been reloaded.");
+		get().addDefault("Reload",
+				textColor + "Files "
+						+ highlightColor + "config.yml "
+						+ textColor + "and "
+						+ highlightColor + "messages.yml "
+						+ textColor + "has been reloaded.");
 		
 		// Toggle_On
-		get().addDefault(
-				"Toggle_On",
-				"&fStaff chat mode: &bON&f.");
+		get().addDefault("Toggle_On",
+				textColor + "Staff chat mode: "
+				+ highlightColor + "ON.");
 		
 		// Toggle_Off
-		get().addDefault(
-				"Toggle_Off",
-				"&fStaff chat mode: &cOFF&f.");
+		get().addDefault("Toggle_Off",
+				textColor + "Staff chat mode: "
+				+ textErrorColor + "OFF.");
 		
-		// Verb-1 (Change to Word_Is)
-		get().addDefault(
-				"Verb-1",
+		// Word_Is
+		get().addDefault("Word_Is",
 				"is");
 		
-		// Verb-1 (Change to Word_Are)
-		get().addDefault(
-				"Verb-2",
+		// Word_Are
+		get().addDefault("Word_Are",
 				"are");
 		
 		// List
 		List<String> list = new ArrayList<String>();
-		list.add("&fThere {verb} &b{amount} &fstaff member{s} viewing staff chat:");
-		list.add("&b{staff}");
+		
+		// List > Amount
+		list.add(textColor + "There {word} "
+				+ highlightColor + "{amount} "
+				+ textColor + "staff member{s} viewing staff chat:");
+		
+		// List > Staff
+		list.add(highlightColor + "{staff}");
+		
+		// List > Default
 		get().addDefault("List", list);
 		
 		// Help
+		String pluginNameCmd = "/" + pluginName.toLowerCase() + " ";
 		List<String> help = new ArrayList<String>();
-		help.add("&b/chatwithstaff &f- View plugin information.");
-		help.add("&b/chatwithstaff help &f- View list of plugin's commands.");
-		help.add("&b/chatwithstaff reload &f- Reloads plugin's config.yml and messages.yml files.");
-		help.add("&b/staffchat &f- Toggles staff chat mode.");
-		help.add("&b/staffchat <message> &f- Sends a message to all staff members.");
-		help.add("&b/staffchatlist &f- Shows all staff members viewing staff chat.");
+		
+		// Help > /pluginname
+		help.add(highlightColor + pluginNameCmd
+				+ textColor + "- View plugin information.");
+		
+		// Help > /pluginname help
+		help.add(highlightColor + pluginNameCmd + "help "
+				+ textColor + "- View list of plugin's commands.");
+		
+		// Help > /pluginname reload
+		help.add(highlightColor + pluginNameCmd + "reload "
+				+ textColor + "- Reload plugin's config.yml and messages.yml files.");
+		
+		// Help > /staffchat
+		help.add(highlightColor + "/staffchat "
+				+ textColor + "- Toggle staff chat mode.");
+		
+		// Help > /staffchat <message>
+		help.add(highlightColor + "/staffchat <message> "
+				+ textColor + "- Send a message to all staff members.");
+		
+		// Help > /staffchatlist
+		help.add(highlightColor + "/staffchatlist "
+				+ textColor + "- Show all staff members viewing staff chat.");
+		
+		// Help > Default
 		get().addDefault("Help", help);
 		
 		// Save default values.
@@ -111,45 +157,48 @@ public class MessageFile extends FileCreator implements YamlFile {
 	/**
 	 * Gets the Prefix message.
 	 * 
-	 * @return Prefix message, with a translated reset color code and space
+	 * @return Prefix message.
 	 */
 	public String getPrefix() {
 		String prefix = get().getString("Prefix");
-		String ending = prefix.isEmpty() ? "" : "&r "; // to avoid a white space if prefix is empty
+		String ending = prefix.isEmpty() ? "" : "&r "; // avoid a white space.
 		return color(prefix + ending);
 	}
 	
 	/**
 	 * Gets the No_Permission message.
 	 * 
-	 * @param permission permission which the sender does not have permission to.
+	 * @param permission Permission
 	 * @return No_Permission message
 	 */
-	public String getNoPermission(String permission) {
-		return getMessage("No_Permission").replace("{permission}", permission);
+	public String getNoPermission(Permission permission) {
+		return getMessage("No_Permission")
+				.replace("{permission}", permission.getPermission());
 	}
 	
 	/**
 	 * Gets the No_Console message.
 	 * 
-	 * @param usedCommand command used
-	 * @param suggestedCommand command suggested
+	 * @param usedCommand Used command
+	 * @param suggestedCommand Suggested command
 	 * @return No_Console message
 	 */
 	public String getNoConsole(String usedCommand, String suggestedCommand) {
-		return getMessage("No_Console").replace("{used_command}", usedCommand)
+		return getMessage("No_Console")
+				.replace("{used_command}", usedCommand)
 				.replace("{suggested_command}", suggestedCommand);
 	}
 	
 	/**
 	 * Gets the Invalid_Command message.
 	 * 
-	 * @param usedCommand command used
-	 * @param suggestedCommand command suggested
+	 * @param usedCommand Used command
+	 * @param suggestedCommand Suggested command
 	 * @return Invalid_Command message
 	 */
 	public String getInvalidCommand(String usedCommand, String suggestedCommand) {
-		return getMessage("Invalid_Command").replace("{used_command}", usedCommand)
+		return getMessage("Invalid_Command")
+				.replace("{used_command}", usedCommand)
 				.replace("{suggested_command}", suggestedCommand);
 	}
 	
@@ -181,21 +230,21 @@ public class MessageFile extends FileCreator implements YamlFile {
 	}
 	
 	/**
-	 * Gets the Verb 1 message (is).
+	 * Gets the Word_Is message.
 	 * 
-	 * @return Verb 1 message (is), unformatted
+	 * @return Word_Is message, unformatted
 	 */
-	public String getVerb1() {
-		return get().getString("Verb-1");
+	public String getWordIs() {
+		return get().getString("Word_Is");
 	}
 	
 	/**
-	 * Gets the Verb 2 message (are)
+	 * Gets the Word_Are message.
 	 * 
-	 * @return Verb 2 message (are), unformatted
+	 * @return Word_Are message, unformatted
 	 */
-	public String getVerb2() {
-		return get().getString("Verb-2");
+	public String getWordAre() {
+		return get().getString("Word_Are");
 	}
 	
 	/**
@@ -217,7 +266,7 @@ public class MessageFile extends FileCreator implements YamlFile {
 	}
 	
 	/**
-	 * Gets the color code before a string. If you had a string like,
+	 * Gets the color code before a string. If you had a string such as,
 	 * "&4Hello! &cWhat's going &7on?," and "before" was set to "going," then
 	 * "&4&c" would be returned. <strong>Not suggested to use for anyone else,
 	 * besides Jessible, as this is a quick fix and not a long term solution.</strong>
@@ -244,14 +293,15 @@ public class MessageFile extends FileCreator implements YamlFile {
 	}
 	
 	/**
-	 * Gets a message from the messages.yml file. The Prefix comes before
-	 * all messages and is automatically inserted when this method is called.
+	 * Gets a message from the plugin's messages.yml file. The Prefix comes
+	 * before all messages and is automatically inserted when this method is
+	 * called.
 	 * 
-	 * @param pathToString path to the string of the message
+	 * @param pathToMessage Path to message
 	 * @return message
 	 */
-	private String getMessage(String pathToString) {
-		return color(getPrefix() + get().getString(pathToString));
+	private String getMessage(String pathToMessage) {
+		return color(getPrefix() + get().getString(pathToMessage));
 	}
 	
 }
