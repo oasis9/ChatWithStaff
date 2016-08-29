@@ -39,7 +39,7 @@ public class FileCreator {
 	 * Initializes FileCreator class.
 	 */
 	private FileCreator() {
-		this.pluginName = ChatWithStaff.getInstance().getDetails().getName();
+		this.pluginName = ChatWithStaff.getInstance().getDetails().getStaticName();
 	}
 	
 	/**
