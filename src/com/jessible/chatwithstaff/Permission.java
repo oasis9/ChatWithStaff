@@ -26,22 +26,22 @@ package com.jessible.chatwithstaff;
 public enum Permission {
 	
 	/**
-	 * Permission for "/chatwithstaff help."
+	 * Permission for "/chatwithstaff help" command.
 	 */
 	CMD_CHATWITHSTAFF_HELP("help"),
 	
 	/**
-	 * Permission for "/chatwithstaff reload."
+	 * Permission for "/chatwithstaff reload" command.
 	 */
 	CMD_CHATWITHSTAFF_RELOAD("reload"),
 	
 	/**
-	 * Permission for "/staffchat" and "/staffchat [msg]."
+	 * Permission for "/staffchat" and "/staffchat message" command.
 	 */
 	CMD_STAFFCHAT("staffchat"),
 	
 	/**
-	 * Permission for "/staffchatlist."
+	 * Permission for "/staffchatlist" command.
 	 */
 	CMD_STAFFCHATLIST("staffchatlist");
 	
@@ -53,7 +53,7 @@ public enum Permission {
 	 * @param permission Permission.
 	 */
 	private Permission(String permission) {
-		this.pluginName = ChatWithStaff.getInstance().getDescription().getName();
+		this.pluginName = ChatWithStaff.getInstance().getDetails().getStaticName();
 		this.permission = pluginName.toLowerCase() + "." + permission;
 	}
 	
