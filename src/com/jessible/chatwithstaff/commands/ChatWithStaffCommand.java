@@ -25,6 +25,7 @@ import org.bukkit.command.CommandSender;
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.CommandHelper;
 import com.jessible.chatwithstaff.Permission;
+import com.jessible.chatwithstaff.PluginDetails;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
@@ -35,8 +36,9 @@ import com.jessible.chatwithstaff.files.MessageFile;
 public class ChatWithStaffCommand extends CommandHelper implements CommandExecutor {
 	
 	private Permission permHelp, permReload;
-	private ChatWithStaff cws;
-	private String version;
+	private ChatWithStaff plugin;
+	private PluginDetails details;
+	private String textColor, highlightColor;
 	private String[] info;
 	
 	/**
@@ -46,12 +48,21 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 		super("chatwithstaff", "[help | reload]");
 		this.permHelp = Permission.CMD_CHATWITHSTAFF_HELP;
 		this.permReload = Permission.CMD_CHATWITHSTAFF_RELOAD;
-		this.cws = ChatWithStaff.getInstance();
-		this.version = cws.getDescription().getVersion();
+		this.plugin = ChatWithStaff.getInstance();
+		this.details = plugin.getDetails();
+		this.textColor = details.getTextColor();
+		this.highlightColor = details.getHighlightColor();
 		this.info = new String[] {
-				"ChatWithStaff " + cws.getMessages().color("&bv" + version),
-				"Developed by " + cws.getMessages().color("&b" + "Jessible"), 
-				"https://www.spigotmc.org/resources/25182/"};
+				// Info > Name
+				textColor + details.getStaticName() + " "
+						+ highlightColor + details.getVersion(),
+						
+				// Info > Developed
+				textColor + "Developed by "
+						+ highlightColor + "Jessible",
+						
+				// Info > Website
+				textColor + details.getWebsite()};
 
 	}
 
@@ -90,7 +101,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 	@Override
 	public boolean onCommand(CommandSender sender, Command baseCmd, String cmd,
 			String[] args) {
-		MessageFile msgs = cws.getMessages();
+		MessageFile msgs = plugin.getMessages();
 		
 		// If "/chatwithstaff" is executed without any arguments.
 		if (args.length == 0) {
@@ -98,7 +109,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 			String prefix = msgs.getPrefix();
 			
 			for (String msg : info) {
-				sender.sendMessage(prefix + msg);
+				sender.sendMessage(prefix + msgs.color(msg));
 			}
 			return true;
 		}
@@ -139,7 +150,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 				// The sender has permission.
 				
 				// Reload ChatWithStaff's config.yml and messages.yml files.
-				cws.getConfiguration().reload();
+				plugin.getConfiguration().reload();
 				msgs.reload();
 				sender.sendMessage(msgs.getReload());
 				return true;

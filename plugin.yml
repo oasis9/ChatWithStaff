@@ -1,6 +1,7 @@
 name: ChatWithStaff
 description: Chat with your staff in private.
 author: Jessible
+website: https://www.spigotmc.org/resources/25182
 version: 1.0.3.0
 main: com.jessible.chatwithstaff.ChatWithStaff
 commands:

@@ -10,7 +10,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class PluginDetails {
 	
 	private PluginDescriptionFile pdf;
-	private String name, version;
+	private String staticName, name, version, website;
 	private String prefixColor, highlightColor, textColor;
 	private String highlightErrorColor, textErrorColor;
 	
@@ -19,13 +19,24 @@ public class PluginDetails {
 	 */
 	public PluginDetails() {
 		this.pdf = ChatWithStaff.getInstance().getDescription();
+		this.staticName = "ChatWithStaff";
 		this.name = pdf.getName();
 		this.version = pdf.getVersion();
+		this.website = pdf.getWebsite();
 		this.prefixColor = "&a";
 		this.highlightColor = "&b";
 		this.textColor = "&f";
 		this.highlightErrorColor = "&4";
 		this.textErrorColor = "&c";
+	}
+	
+	/**
+	 * Gets the static name of the plugin.
+	 * 
+	 * @return static name of the plugin
+	 */
+	public String getStaticName() {
+		return staticName;
 	}
 	
 	/**
@@ -44,6 +55,15 @@ public class PluginDetails {
 	 */
 	public String getVersion() {
 		return version;
+	}
+	
+	/**
+	 * Gets the website of the plugin.
+	 * 
+	 * @return website of the plugin
+	 */
+	public String getWebsite() {
+		return website;
 	}
 	
 	/**
