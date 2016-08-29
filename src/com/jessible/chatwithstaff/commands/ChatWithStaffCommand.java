@@ -62,7 +62,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 						+ highlightColor + "Jessible",
 						
 				// Info > Website
-				textColor + details.getWebsite()};
+				highlightColor + details.getWebsite()};
 	}
 
 	/**
