@@ -9,8 +9,8 @@ commands:
     description: View plugin information about ChatWithStaff.
     aliases: [cws]
   staffchat:
-    description: Sends a message to all staff members or toggles a player's staff chat mode..
+    description: Send a message to all staff members or toggle staff chat mode.
     aliases: [sc]
   staffchatlist:
-    description: Shows all staff members viewing staff chat.
+    description: Show all staff members viewing staff chat.
     aliases: [scl]
