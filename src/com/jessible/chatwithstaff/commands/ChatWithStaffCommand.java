@@ -63,7 +63,6 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 						
 				// Info > Website
 				textColor + details.getWebsite()};
-
 	}
 
 	/**
@@ -72,24 +71,23 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 	 * <strong>/chatwithstaff</strong>
 	 * <ul>
 	 * 		<li><strong>Example usage</strong>: /chatwithstaff.</li>
-	 * 		<li><strong>Description</strong>: Shows ChatWithStaff's version
-	 * 			number and download link.
+	 * 		<li><strong>Description</strong>: Shows the plugin's information.
 	 * 		</li>
 	 * </ul>
 	 * 
 	 * <strong>/chatwithstaff help</strong>
 	 * <ul>
 	 * 		<li><strong>Example usage</strong>: /chatwithstaff help.</li>
-	 * 		<li><strong>Description</strong>: Shows ChatWithStaff's help
-	 * 			information found in ChatWithStaff's messages.yml file.
+	 * 		<li><strong>Description</strong>: Shows the plugin's help
+	 * 			information found in the plugin's messages.yml file.
 	 * 		</li>
 	 * </ul>
 	 * 	
 	 * <strong>/chatwithstaff reload</strong>
 	 * <ul>
 	 * 		<li><strong>Example usage</strong>: /chatwithstaff reload.</li>
-	 * 		<li><strong>Description</strong>: Reloads ChatWithStaff's
-	 * 			config.yml and messages.yml files.
+	 * 		<li><strong>Description</strong>: Reloads the plugin's config.yml
+	 * 			and messages.yml files.
 	 * 		</li>
 	 * </ul>
 	 * 
@@ -105,7 +103,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 		
 		// If "/chatwithstaff" is executed without any arguments.
 		if (args.length == 0) {
-			// Send ChatWithStaff's version number and download link.
+			// Send the plugin's information.
 			String prefix = msgs.getPrefix();
 			
 			for (String msg : info) {
@@ -120,7 +118,6 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 			
 			// If "/chatwithstaff help" is executed.
 			if (args[0].equalsIgnoreCase("help")) {
-				
 				// If the sender doesn't have permission.
 				if (!hasPermission(permHelp, sender)) {
 					// hasPermission(Permission, CommandSender) sends the no
@@ -140,7 +137,6 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 			
 			// If "/chatwithstaff reload" is executed.
 			else if (args[0].equalsIgnoreCase("reload")) {
-				
 				// If the sender doesn't have permission.
 				if (!hasPermission(permReload, sender)) {
 					// hasPermission(Permission, CommandSender) sends the no
@@ -149,7 +145,7 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 				}
 				// The sender has permission.
 				
-				// Reload ChatWithStaff's config.yml and messages.yml files.
+				// Reload the plugin's config.yml and messages.yml files.
 				plugin.getConfiguration().reload();
 				msgs.reload();
 				sender.sendMessage(msgs.getReload());
