@@ -56,6 +56,7 @@ public class ChatWithStaff extends JavaPlugin {
 		// Setup config.yml file.
 		config = new ConfigFile();
 		config.addDefaultValues();
+		config.cacheInstantWords();
 		
 		// Setup messages.yml file.
 		msgs = new MessageFile();

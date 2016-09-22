@@ -18,6 +18,10 @@
 
 package com.jessible.chatwithstaff.files;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FileCreator;
 import com.jessible.chatwithstaff.PluginDetails;
@@ -30,6 +34,7 @@ import com.jessible.chatwithstaff.PluginDetails;
 public class ConfigFile extends FileCreator implements YamlFile {
 	
 	private PluginDetails details;
+	private List<String> instantWords;
 	
 	/**
 	 * Initializes ConfigFile class.
@@ -37,6 +42,7 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	public ConfigFile() {
 		super("config");
 		this.details = ChatWithStaff.getInstance().getDetails();
+		this.instantWords = new ArrayList<String>();
 	}
 	
 	@Override
@@ -64,9 +70,26 @@ public class ConfigFile extends FileCreator implements YamlFile {
 		get().addDefault("Log_To_File",
 				true);
 		
+		get().addDefault("Instant_Words",
+				Arrays.<String>asList(
+						"staff",
+						"mods",
+						"admins"));
+		
 		// Save default values.
 		get().options().copyDefaults(true);
 		save();
+	}
+	
+	/**
+	 * Caches the instant words.
+	 */
+	public void cacheInstantWords() {
+		instantWords.clear();
+		
+		for (String word : get().getStringList("Instant_Words")) {
+			instantWords.add(word.toLowerCase());
+		}
 	}
 	
 	/**
@@ -105,7 +128,6 @@ public class ConfigFile extends FileCreator implements YamlFile {
 		return get().getBoolean("Log_To_Console");
 	}
 
-	
 	/**
 	 * Checks whether or not log to file is set to true.
 	 * 
@@ -113,6 +135,15 @@ public class ConfigFile extends FileCreator implements YamlFile {
 	 */
 	public boolean canLogToFile() {
 		return get().getBoolean("Log_To_File");
+	}
+	
+	/**
+	 * Gets the instant words.
+	 * 
+	 * @return instant words, lowercase
+	 */
+	public List<String> getInstantWords() {
+		return instantWords;
 	}
 	
 }

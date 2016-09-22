@@ -26,6 +26,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.FormatType;
 import com.jessible.chatwithstaff.Logger;
+import com.jessible.chatwithstaff.Permission;
 import com.jessible.chatwithstaff.StaffChatMessage;
 import com.jessible.chatwithstaff.StaffChatMode;
 import com.jessible.chatwithstaff.files.ConfigFile;
@@ -37,12 +38,14 @@ import com.jessible.chatwithstaff.files.ConfigFile;
  */
 public class StaffChatListener implements Listener {
 	
+	private String perm;
 	private ChatWithStaff plugin;
 	
 	/**
 	 * Initializes StaffChatListener class.
 	 */
 	public StaffChatListener() {
+		this.perm = Permission.CMD_STAFFCHAT.getPermission();
 		this.plugin = ChatWithStaff.getInstance();
 	}
 
@@ -55,13 +58,34 @@ public class StaffChatListener implements Listener {
 	public void onPlayerChatInStaffChat(AsyncPlayerChatEvent e) {
 		Player player = e.getPlayer();
 		String msg = e.getMessage();
-		StaffChatMode scm = new StaffChatMode();
+		String lowerMsg = msg.toLowerCase();
+		boolean instant = false;
 		
-		// If the player is not in staff chat mode.
-		if (!scm.isInStaffChatMode(player)) {
+		// If the player has permission to talk in staff chat.
+		if (!player.hasPermission(perm)) {
 			return;
 		}
-		// The player is in staff chat mode.
+		
+		// Loop through instant words.
+		for (String word : plugin.getConfiguration().getInstantWords()) {
+			// If the message contains an instant word.
+			if (lowerMsg.contains(word)) {
+				instant = true;
+				break;
+			}
+		}
+		
+		// If the message doesn't contain an instant word.
+		if (!instant) {
+			StaffChatMode scm = new StaffChatMode();
+			
+			// If the player is not in staff chat mode.
+			if (!scm.isInStaffChatMode(player)) {
+				return;
+			}
+		}
+		
+		// All checks went through good. Getting ready to send message.
 		e.setCancelled(true);
 		
 		StaffChatMessage staffMsg = new StaffChatMessage(msg, player);

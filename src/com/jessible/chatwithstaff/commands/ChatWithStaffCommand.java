@@ -26,6 +26,7 @@ import com.jessible.chatwithstaff.ChatWithStaff;
 import com.jessible.chatwithstaff.CommandHelper;
 import com.jessible.chatwithstaff.Permission;
 import com.jessible.chatwithstaff.PluginDetails;
+import com.jessible.chatwithstaff.files.ConfigFile;
 import com.jessible.chatwithstaff.files.MessageFile;
 
 /**
@@ -146,7 +147,10 @@ public class ChatWithStaffCommand extends CommandHelper implements CommandExecut
 				// The sender has permission.
 				
 				// Reload the plugin's config.yml and messages.yml files.
-				plugin.getConfiguration().reload();
+				ConfigFile config = plugin.getConfiguration();
+				config.reload();
+				config.cacheInstantWords();
+
 				msgs.reload();
 				sender.sendMessage(msgs.getReload());
 				return true;
