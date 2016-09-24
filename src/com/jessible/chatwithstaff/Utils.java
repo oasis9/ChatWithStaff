@@ -25,7 +25,7 @@ package com.jessible.chatwithstaff;
  */
 public class Utils {
 	
-	// Testing - JesseMcCulloughTest
+	// Testing 2 - JesseMcCulloughTest
 
 	/**
 	 * Takes a string array and builds it into one string, puts a space
